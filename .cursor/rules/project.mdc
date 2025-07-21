@@ -1,0 +1,17 @@
+---
+alwaysApply: true
+---
+This is a web application written in Elysia (Bun). 
+
+Documentation for Elysia can be found here: 
+- https://elysiajs.com/essential/route.html 
+- https://elysiajs.com/essential/handler.html 
+- https://elysiajs.com/essential/life-cycle.html 
+
+This project is the backend REST API for a frontend web application. 
+
+The functionality of this API are follows: 
+
+- `/v1/locate` - reverse geocode from lat/lng to locality and city info. 
+- `/v1/location/info` - get narrative information about the location
+- `/v1/location/nearby` - find nearby interesting places around the location

@@ -6,6 +6,11 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@ai-sdk/perplexity": "^2.0.0-beta.6",
+    "@elysiajs/server-timing": "^1.3.0",
+    "@elysiajs/swagger": "^1.3.1",
+    "@googlemaps/google-maps-services-js": "^3.4.2",
+    "ai": "^5.0.0-beta.24",
     "elysia": "latest"
   },
   "devDependencies": {
