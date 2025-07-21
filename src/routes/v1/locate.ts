@@ -1,10 +1,12 @@
 import { Elysia } from "elysia";
 import { reverseGeocode, ReverseGeocodeRequestSchema, ReverseGeocodeResponseSchema } from "../../services/geocoding";
+import { db } from "../../db/init";
 
 /**
  * route mounted at /v1/locate
  */
 const route = new Elysia({ prefix: "/locate" })
+  .decorate("db", db)
   .get("/", async ({ query }) => {
     return await reverseGeocode(query);
   }, {

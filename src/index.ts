@@ -4,6 +4,7 @@ import locate from "./routes/v1/locate";
 import location from "./routes/v1/location";
 import { serverTiming } from "@elysiajs/server-timing";
 import { swagger } from '@elysiajs/swagger'
+import { db as _db } from "./db/init";
 
 const app = new Elysia()
   .use(serverTiming())
