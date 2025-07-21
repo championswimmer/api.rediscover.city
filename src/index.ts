@@ -7,10 +7,11 @@ import { swagger } from '@elysiajs/swagger'
 
 const app = new Elysia()
   .use(serverTiming())
-  .use(swagger())
-  .get("/", () => "api.rediscover.city")
-  .use(locate)
-  .use(location)
+  .use(swagger(config.swaggerConfig))
+  .group("/v1", (app) => app
+    .use(locate)
+    .use(location)
+  )
   .listen(config.port);
 
 console.log(

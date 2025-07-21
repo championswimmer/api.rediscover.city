@@ -4,12 +4,13 @@ import { reverseGeocode, ReverseGeocodeRequestSchema, ReverseGeocodeResponseSche
 /**
  * route mounted at /v1/locate
  */
-const route = new Elysia({ prefix: "/v1/locate" })
+const route = new Elysia({ prefix: "/locate" })
   .get("/", async ({ query }) => {
     return await reverseGeocode(query);
   }, {
     query: ReverseGeocodeRequestSchema,
-    response: ReverseGeocodeResponseSchema
+    response: ReverseGeocodeResponseSchema,
+    tags: ["geocoding"]
   });
 
 export default route;
