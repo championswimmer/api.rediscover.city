@@ -1,3 +1,16 @@
+import adze from "adze";
 import { drizzle } from "drizzle-orm/bun-sql";
+import { DefaultLogger } from "drizzle-orm/logger";
 
-export const db = drizzle(process.env.DATABASE_URL!);
+const logger = new DefaultLogger({
+  writer: {
+    write: (message) => {
+      adze.ns("drizzle").debug(message);
+    }
+  }
+})
+
+export const db = drizzle({
+  connection: process.env.DATABASE_URL!,
+  logger
+});
