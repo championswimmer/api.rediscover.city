@@ -8,8 +8,10 @@
         "@elysiajs/server-timing": "^1.3.0",
         "@elysiajs/swagger": "^1.3.1",
         "@googlemaps/google-maps-services-js": "^3.4.2",
+        "@types/ngeohash": "^0.6.8",
         "ai": "^5.0.0-beta.24",
         "elysia": "latest",
+        "ngeohash": "^0.6.3",
       },
       "devDependencies": {
         "bun-types": "latest",
@@ -48,6 +50,8 @@
     "@tokenizer/inflate": ["@tokenizer/inflate@0.2.7", "", { "dependencies": { "debug": "^4.4.0", "fflate": "^0.8.2", "token-types": "^6.0.0" } }, "sha512-MADQgmZT1eKjp06jpI2yozxaU9uVs4GzzgSL+uEq7bVcJ9V1ZXQkeGNql1fsSI0gMy1vhvNTNbUqrx+pZfJVmg=="],
 
     "@tokenizer/token": ["@tokenizer/token@0.3.0", "", {}, "sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A=="],
+
+    "@types/ngeohash": ["@types/ngeohash@0.6.8", "", {}, "sha512-A90x3HMwE1yXbWCnd0ztHzv8rAQPjwTzX2diYI/6OrWm/3oairDaehw5WPWJFgZ+8+J/OuF99IbipmMa2le6tQ=="],
 
     "@types/node": ["@types/node@24.0.15", "", { "dependencies": { "undici-types": "~7.8.0" } }, "sha512-oaeTSbCef7U/z7rDeJA138xpG3NuKc64/rZ2qmUFkFJmnMsAPaluIifqyWd8hSSMxyP9oie3dLAqYPblag9KgA=="],
 
@@ -140,6 +144,8 @@
     "ms": ["ms@2.1.3", "", {}, "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="],
 
     "nanoid": ["nanoid@5.1.5", "", { "bin": { "nanoid": "bin/nanoid.js" } }, "sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw=="],
+
+    "ngeohash": ["ngeohash@0.6.3", "", {}, "sha512-kltF0cOxgx1AbmVzKxYZaoB0aj7mOxZeHaerEtQV0YaqnkXNq26WWqMmJ6lTqShYxVRWZ/mwvvTrNeOwdslWiw=="],
 
     "openapi-types": ["openapi-types@12.1.3", "", {}, "sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw=="],
 

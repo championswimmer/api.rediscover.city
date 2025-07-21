@@ -10,8 +10,10 @@
     "@elysiajs/server-timing": "^1.3.0",
     "@elysiajs/swagger": "^1.3.1",
     "@googlemaps/google-maps-services-js": "^3.4.2",
+    "@types/ngeohash": "^0.6.8",
     "ai": "^5.0.0-beta.24",
-    "elysia": "latest"
+    "elysia": "latest",
+    "ngeohash": "^0.6.3"
   },
   "devDependencies": {
     "bun-types": "latest"
