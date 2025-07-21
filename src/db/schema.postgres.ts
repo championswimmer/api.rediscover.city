@@ -6,8 +6,8 @@ export const geohashTable = pgTable("geohash", {
   country: varchar({ length: 48 }).notNull(),
   city: varchar({ length: 64 }).notNull(),
   locality: varchar({ length: 64 }).notNull(),
-  neighborhood: varchar({ length: 64 }),
-  street: varchar({ length: 64 }),
+  neighborhood: varchar({ length: 64 }).notNull(),
+  street: varchar({ length: 64 }).notNull(),
 });
 
 export const locationInfoTable = pgTable("location_info", {

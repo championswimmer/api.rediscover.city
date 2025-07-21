@@ -5,6 +5,14 @@ import location from "./routes/v1/location";
 import { serverTiming } from "@elysiajs/server-timing";
 import { swagger } from '@elysiajs/swagger'
 import { db as _db } from "./db/init";
+import { setup as setupLogger } from "adze"; 
+
+setupLogger({
+  withEmoji: config.logs.emoji,
+  showTimestamp: true,
+  format: 'pretty',
+  activeLevel: config.logs.level,
+});
 
 const app = new Elysia()
   .use(serverTiming())

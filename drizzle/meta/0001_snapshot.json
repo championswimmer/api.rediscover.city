@@ -1,0 +1,93 @@
+{
+  "id": "3a9f36c9-8fad-4aee-8124-ea76a977f5bf",
+  "prevId": "778c4b4a-8e10-4821-a543-fb850837c976",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.geohash": {
+      "name": "geohash",
+      "schema": "",
+      "columns": {
+        "geohash": {
+          "name": "geohash",
+          "type": "varchar(10)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "geopoint": {
+          "name": "geopoint",
+          "type": "point",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "country": {
+          "name": "country",
+          "type": "varchar(48)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "city": {
+          "name": "city",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "locality": {
+          "name": "locality",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "neighborhood": {
+          "name": "neighborhood",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "street": {
+          "name": "street",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.location_info": {
+      "name": "location_info",
+      "schema": "",
+      "columns": {
+        "geohash": {
+          "name": "geohash",
+          "type": "varchar(10)",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

@@ -1,5 +1,6 @@
 import { ElysiaSwaggerConfig } from "@elysiajs/swagger";
 import dotenv from "dotenv";
+import { Level } from "adze";
 
 // first load default env
 dotenv.config({ path: ".env" });
@@ -36,5 +37,10 @@ export const config = {
         }
       ]
     }
+  },
+  geohashPrecision: 7,
+  logs: {
+    emoji: true,
+    level: <Level>(process.env.NODE_ENV === "production" ? 'warn' : 'debug'),
   }
 };

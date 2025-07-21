@@ -6,8 +6,8 @@ import { t, Static } from "elysia";
 const client = new Client({});
 
 export const ReverseGeocodeRequestSchema = t.Object({
-  lat: t.String(),
-  lng: t.String(),
+  lat: t.String({ examples: ["40.7128", "51.5074"] }), // NYC, London
+  lng: t.String({ examples: ["-74.0060", "-0.1278"] }), // NYC, London
 });
 
 export type ReverseGeocodeRequest = Static<typeof ReverseGeocodeRequestSchema>;
@@ -26,7 +26,7 @@ export type ReverseGeocodeResponse = Static<typeof ReverseGeocodeResponseSchema>
 
 async function reverseGeocode(request: ReverseGeocodeRequest): Promise<ReverseGeocodeResponse> {
   const { lat, lng } = request;
-  const geohash = ngeohash.encode(lat, lng, 6);
+  const geohash = ngeohash.encode(lat, lng, config.geohashPrecision);
 
   const response = await client.reverseGeocode({
     params: {
