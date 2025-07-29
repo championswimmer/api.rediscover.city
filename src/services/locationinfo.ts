@@ -30,7 +30,6 @@ export const LocationInfoResponseSchema = t.Object({
   climate: t.String({ description: "Climate throughout the year in this area" }),
   demographics: t.String({ description: "Demographics of the location" }),
   economy: t.String({ description: "Economic aspects of the location" }),
-  images: t.Array(t.String({ description: "Images of the location" })),
 });
 
 export type LocationInfoResponse = Static<typeof LocationInfoResponseSchema>;
