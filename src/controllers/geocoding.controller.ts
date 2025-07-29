@@ -38,4 +38,19 @@ export class GeocodingController {
     adze.info("Geohash record created", { geohash, geohashRecord: response });
     return response;
   }
+
+  async getLocationFromGeohash(geohash: string): Promise<ReverseGeocodeResponse | null> {
+    adze.info("Getting location from geohash", { geohash });
+    const geohashRecord = await this.db.select().from(geohashTable).where(eq(geohashTable.geohash, geohash));
+    if (geohashRecord.length > 0) {
+      adze.info("Geohash record found", { geohash, geohashRecord });
+      return {
+        ...geohashRecord[0],
+        neighborhood: geohashRecord[0].neighborhood ?? undefined,
+        street: geohashRecord[0].street ?? undefined,
+      };
+    }
+    adze.warn("Geohash record not found", { geohash });
+    return null;
+  }
 }
