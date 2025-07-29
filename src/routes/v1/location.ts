@@ -11,8 +11,17 @@ import { LocationInfoRequestSchema } from "../../services/locationinfo";
 const route = new Elysia({ prefix: "/location" })
   .decorate("locCtrl", new LocationController(db))
   .decorate("geoCtrl", new GeocodingController(db))
-  .get("/info", async ({ query, locCtrl, geoCtrl }) => {
+  .get("/info", async ({ query, locCtrl, geoCtrl, set }) => {
     const location = await geoCtrl.getLocationFromGeohash(query.geohash);
+    if (!location) {
+      set.status = 404;
+      return {
+        message: `Could not find location info for the given geohash: ${query.geohash}. ` +
+          `Did you first call the /v1/locate endpoint with lat/lng to get the location?`,
+      };
+    }
+    const locationInfo = await locCtrl.getLocationInfo(location);
+    return locationInfo;
   }, {
     tags: ["location"],
     query: LocationInfoRequestSchema,

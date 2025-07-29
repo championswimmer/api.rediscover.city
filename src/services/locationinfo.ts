@@ -22,10 +22,15 @@ export const LocationInfoResponseSchema = t.Object({
   description: t.String({ description: "A short description of the location" }),
   history: t.String({ description: "Historical facts about the location" }),
   culture: t.String({ description: "Cultural aspects and traditions" }),
-  attractions: t.Array(t.String({ description: "Attractions in the location" })),
+  attractions: t.Array(t.Object({
+    name: t.String({ description: "The name of the attraction" }),
+    distance: t.String({ description: "The distance to the attraction" }),
+    whyVisit: t.String({ description: "Why this attraction is worth visiting" })
+  })),
   climate: t.String({ description: "Climate throughout the year in this area" }),
   demographics: t.String({ description: "Demographics of the location" }),
   economy: t.String({ description: "Economic aspects of the location" }),
+  images: t.Array(t.String({ description: "Images of the location" })),
 });
 
 export type LocationInfoResponse = Static<typeof LocationInfoResponseSchema>;
@@ -33,7 +38,7 @@ export type LocationInfoResponse = Static<typeof LocationInfoResponseSchema>;
 export async function getLocationInfo(location: ReverseGeocodeResponse): Promise<LocationInfoResponse> {
   const { latitude, longitude } = ngeohash.decode(location.geohash);
   const response = await generateObject({
-    model: perplexity("sonar"),
+    model: perplexity("sonar-pro"),
     schema: jsonSchema<LocationInfoResponse>(await toJSONSchema(LocationInfoResponseSchema)),
     prompt: locationInfoPrompt({
       ...location,

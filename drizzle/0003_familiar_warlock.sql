@@ -1,0 +1,1 @@
+ALTER TABLE "location_info" ALTER COLUMN "attractions" SET DATA TYPE jsonb USING "attractions"::jsonb[];

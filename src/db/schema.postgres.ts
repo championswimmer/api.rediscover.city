@@ -1,4 +1,5 @@
-import { pgTable, varchar, point } from "drizzle-orm/pg-core";
+import { pgTable, varchar, point, text, jsonb } from "drizzle-orm/pg-core";
+import { LocationInfoResponse } from "../services/locationinfo";
 
 export const geohashTable = pgTable("geohash", {
   geohash: varchar({ length: 10 }).primaryKey(),
@@ -12,6 +13,15 @@ export const geohashTable = pgTable("geohash", {
 
 export const locationInfoTable = pgTable("location_info", {
   geohash: varchar({ length: 10 }).primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  history: text("history").notNull(),
+  culture: text("culture").notNull(),
+  attractions: jsonb("attractions").array().$type<LocationInfoResponse["attractions"]>().notNull(),
+  climate: text("climate").notNull(),
+  demographics: text("demographics").notNull(),
+  economy: text("economy").notNull(),
 });
 
 export type GeohashModel = typeof geohashTable.$inferSelect;
+export type LocationInfoModel = typeof locationInfoTable.$inferSelect;
