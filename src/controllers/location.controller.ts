@@ -1,5 +1,5 @@
 import { BunSQLDatabase } from "drizzle-orm/bun-sql";
-import { GeohashModel } from "../db/schema.postgres";
+import { ReverseGeocodeResponse } from "../services/geocoding";
 
 export class LocationController {
   private readonly db: BunSQLDatabase;
@@ -7,7 +7,7 @@ export class LocationController {
       this.db = db;
     }
 
-    async getLocationInfo(location: GeohashModel): Promise<String> {
+    async getLocationInfo(location: ReverseGeocodeResponse): Promise<String> {
       return "Location Info";
     }
 }
