@@ -14,6 +14,7 @@ export const config = {
   keys: {
     perplexity: process.env.PERPLEXITY_API_KEY!,
     googlemaps: process.env.GOOGLE_MAPS_API_KEY!,
+    googleai: process.env.GOOGLE_AI_API_KEY!,
   },
   swaggerConfig: <ElysiaSwaggerConfig>{
     documentation: {
