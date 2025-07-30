@@ -1,5 +1,5 @@
-import { BunSQLDatabase } from "drizzle-orm/bun-sql";
-import { geohashTable } from "../db/schema.postgres";
+import { DatabaseType } from "../db/init";
+import { geohashTable } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { config } from "../config";
 import { reverseGeocode, ReverseGeocodeResponse } from "../services/geocoding";
@@ -7,8 +7,8 @@ import ngeohash from "ngeohash";
 import adze from "adze";
 
 export class GeocodingController {
-  private readonly db: BunSQLDatabase;
-  constructor(db: BunSQLDatabase) {
+  private readonly db: DatabaseType;
+  constructor(db: DatabaseType) {
     this.db = db;
   }
 

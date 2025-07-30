@@ -46,6 +46,9 @@ package-lock.json
 .env
 .env.local
 .env.production
+.env.test
 
 # database 
 /postgres_data/
+*.db
+*.db-*
