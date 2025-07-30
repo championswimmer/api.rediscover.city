@@ -2,6 +2,7 @@
   "name": "api.rediscover.city",
   "version": "1.0.50",
   "scripts": {
+    "build": "bun build src/index.ts --target=bun --outfile=dist/index.js",
     "test": "bun test src/**/*.test.ts",
     "test:watch": "bun test --watch src/**/*.test.ts",
     "dev": "bun run --watch src/index.ts"
