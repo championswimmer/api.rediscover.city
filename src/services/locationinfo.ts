@@ -11,7 +11,9 @@ import { locationInfoPrompt } from "../prompts/location-info";
 import adze from "adze";
 
 export const LocationInfoRequestSchema = t.Object({
-  geohash: t.String(),
+  geohash: t.Optional(t.String()),
+  lat: t.Optional(t.String()),
+  lng: t.Optional(t.String()),
 });
 
 export type LocationInfoRequest = Static<typeof LocationInfoRequestSchema>;

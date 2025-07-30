@@ -12,16 +12,32 @@ const route = new Elysia({ prefix: "/location" })
   .decorate("locCtrl", new LocationController(db))
   .decorate("geoCtrl", new GeocodingController(db))
   .get("/info", async ({ query, locCtrl, geoCtrl, set }) => {
-    const location = await geoCtrl.getLocationFromGeohash(query.geohash);
-    if (!location) {
-      set.status = 404;
-      return {
-        message: `Could not find location info for the given geohash: ${query.geohash}. ` +
-          `Did you first call the /v1/locate endpoint with lat/lng to get the location?`,
-      };
+    // Check if geohash is provided
+    if (query.geohash) {
+      const location = await geoCtrl.getLocationFromGeohash(query.geohash);
+      if (!location) {
+        set.status = 404;
+        return {
+          message: `Could not find location info for the given geohash: ${query.geohash}. ` +
+            `Did you first call the /v1/locate endpoint with lat/lng to get the location?`,
+        };
+      }
+      const locationInfo = await locCtrl.getLocationInfo(location);
+      return locationInfo;
     }
-    const locationInfo = await locCtrl.getLocationInfo(location);
-    return locationInfo;
+    
+    // Check if lat and lng are provided
+    if (query.lat && query.lng) {
+      const location = await geoCtrl.reverseGeocode(query.lat, query.lng);
+      const locationInfo = await locCtrl.getLocationInfo(location);
+      return locationInfo;
+    }
+    
+    // Neither geohash nor lat/lng provided
+    set.status = 400;
+    return {
+      message: "Bad request: Either 'geohash' or both 'lat' and 'lng' parameters must be provided.",
+    };
   }, {
     tags: ["location"],
     query: LocationInfoRequestSchema,
