@@ -28,7 +28,15 @@ const route = new Elysia({ prefix: "/location" })
     
     // Check if lat and lng are provided
     if (query.lat && query.lng) {
-      const location = await geoCtrl.reverseGeocode(query.lat, query.lng);
+      const lat = parseFloat(query.lat);
+      const lng = parseFloat(query.lng);
+      if (isNaN(lat) || isNaN(lng)) {
+        set.status = 400;
+        return {
+          message: "Bad request: 'lat' and 'lng' must be valid numeric coordinates.",
+        };
+      }
+      const location = await geoCtrl.reverseGeocode(lat, lng);
       const locationInfo = await locCtrl.getLocationInfo(location);
       return locationInfo;
     }
