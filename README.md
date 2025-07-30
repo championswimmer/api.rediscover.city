@@ -36,6 +36,8 @@ To get started with development, follow these steps:
     The API will be available at `http://localhost:3000`.
 
 3.  **Running Tests**:
+    This project supports testing with SQLite for faster, isolated tests. The test environment automatically uses SQLite instead of PostgreSQL.
+    
     To run the test suite once:
     ```bash
     bun test
@@ -44,6 +46,32 @@ To get started with development, follow these steps:
     ```bash
     bun run test:watch
     ```
+    To run specific test files:
+    ```bash
+    bun test src/db/database.test.ts  # Database-specific tests
+    ```
+
+## Database Configuration
+
+The application supports both PostgreSQL (production) and SQLite (testing) databases:
+
+- **Production**: Uses PostgreSQL with connection string from `DATABASE_URL`
+- **Testing**: Uses SQLite with file path from `DATABASE_URL` when `DB_DIALECT=sqlite`
+
+Environment configuration:
+- `.env` - Default environment (PostgreSQL)
+- `.env.local` - Local development overrides
+- `.env.test` - Test environment (SQLite) - automatically loaded during tests
+- `.env.production` - Production overrides
+
+The database dialect is controlled by the `DB_DIALECT` environment variable:
+- `postgresql` (default) - Uses PostgreSQL
+- `sqlite` - Uses SQLite (for tests)
+
+Schema files:
+- `src/db/schema.postgres.ts` - PostgreSQL schema with native types
+- `src/db/schema.sqlite.ts` - SQLite schema with compatible types
+- `src/db/schema.ts` - Dynamic schema loader based on dialect
 
 ## Dependencies
 
@@ -52,7 +80,7 @@ This project relies on a set of modern and efficient libraries to deliver its fu
 | Library                                | Purpose                                                                                             |
 | -------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | **[ElysiaJS](https://elysiajs.com/)**      | A fast, ergonomic, and type-safe web framework for Bun.                                             |
-| **[Drizzle ORM](https://orm.drizzle.team/)** | A TypeScript ORM for building and querying SQL databases. Used here with PostgreSQL.                |
+| **[Drizzle ORM](https://orm.drizzle.team/)** | A TypeScript ORM for building and querying SQL databases. Used here with PostgreSQL (production) and SQLite (testing). |
 | **[AI SDK](https://sdk.vercel.ai/)**       | A library for integrating AI models (like Google's Gemini and Perplexity) to generate content.      |
 | **[Google Maps Services]**             | Node.js client for Google Maps services, used for geocoding and places data.                        |
 | **[TypeBox](https://github.com/sinclairzx81/typebox)** | A library for creating JSON schemas and validating data, ensuring type safety for API requests. |
