@@ -8,5 +8,5 @@ const schema = dialect === 'sqlite' ? sqliteSchema : postgresSchema;
 
 export const geohashTable = schema.geohashTable;
 export const locationInfoTable = schema.locationInfoTable;
-export type GeohashModel = typeof schema.GeohashModel;
-export type LocationInfoModel = typeof schema.LocationInfoModel;
+export type GeohashModel = typeof schema.geohashTable.$inferSelect;
+export type LocationInfoModel = typeof schema.locationInfoTable.$inferSelect;

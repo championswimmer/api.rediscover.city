@@ -1,4 +1,5 @@
 import adze from "adze";
+import { config } from "../config";
 import { drizzle as drizzlePostgres } from "drizzle-orm/bun-sql";
 import { drizzle as drizzleSqlite } from "drizzle-orm/bun-sqlite";
 import { DefaultLogger } from "drizzle-orm/logger";
@@ -14,9 +15,10 @@ const logger = new DefaultLogger({
 
 // Create database connection based on dialect
 const createDatabase = () => {
-  const dialect = process.env.DB_DIALECT || 'postgresql';
-  const databaseUrl = process.env.DATABASE_URL!;
-  
+  const dialect = config.db.dialect;
+  const databaseUrl = config.db.url;
+  adze.ns("db").info("Creating database connection", { dialect, databaseUrl });
+
   if (dialect === 'sqlite') {
     const sqlite = new Database(databaseUrl);
     return drizzleSqlite(sqlite, { logger });

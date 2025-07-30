@@ -3,6 +3,7 @@
   "version": "1.0.50",
   "scripts": {
     "build": "bun build src/index.ts --target=bun --outfile=dist/index.js",
+    "pretest": "NODE_ENV=test bunx drizzle-kit up",
     "test": "bun test src/**/*.test.ts",
     "test:watch": "bun test --watch src/**/*.test.ts",
     "dev": "bun run --watch src/index.ts"
@@ -25,6 +26,7 @@
     "ngeohash": "^0.6.3"
   },
   "devDependencies": {
+    "@libsql/client": "^0.15.10",
     "@types/bun": "^1.2.19",
     "bun-types": "latest",
     "drizzle-kit": "^0.31.4",

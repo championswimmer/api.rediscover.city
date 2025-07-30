@@ -1,16 +1,19 @@
 import { describe, it, expect, beforeAll, afterAll } from "bun:test";
-import { db } from "../db/init";
+import { db as testDb } from "../db/init";
 import { geohashTable, locationInfoTable } from "../db/schema";
 import { eq } from "drizzle-orm";
+import { BunSQLiteDatabase } from "drizzle-orm/bun-sqlite";
+import adze from "adze";
 
 describe("database configuration", () => {
+  const db = testDb as BunSQLiteDatabase<Record<string, never>>;
   beforeAll(async () => {
     // Clean up any existing test data
     try {
       await db.delete(geohashTable);
       await db.delete(locationInfoTable);
     } catch (error) {
-      // Tables might not exist yet, ignore errors
+      adze.ns("db:test").error("Error cleaning up test data", { error });
     }
   });
 
@@ -20,7 +23,7 @@ describe("database configuration", () => {
       await db.delete(geohashTable);
       await db.delete(locationInfoTable);
     } catch (error) {
-      // Ignore cleanup errors
+      adze.ns("db:test").error("Error cleaning up test data", { error });
     }
   });
 
@@ -61,7 +64,7 @@ describe("database configuration", () => {
       description: "Test Description",
       history: "Test History",
       culture: "Test Culture",
-      attractions: [{ name: "Test Attraction", type: "test" }],
+      attractions: [{ name: "Test Attraction", distance: "100m", whyVisit: "Test Why Visit" }],
       climate: "Test Climate",
       demographics: "Test Demographics",
       economy: "Test Economy"

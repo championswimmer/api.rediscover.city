@@ -1,10 +1,10 @@
 import './src/config';
 import { defineConfig } from 'drizzle-kit';
 
-let schemaPath = './src/db/schema.postgres.ts';
+let schemaPath = './src/db/schema.ts';
 let dialect: "postgresql" | "sqlite" = 'postgresql';
 if (process.env.DB_DIALECT === 'sqlite') {
-  schemaPath = './src/db/schema.sqlite.ts';
+  schemaPath = './src/db/schema.ts';
   dialect = 'sqlite';
 }
 export default defineConfig({

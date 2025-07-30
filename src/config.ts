@@ -1,19 +1,24 @@
 import { ElysiaSwaggerConfig } from "@elysiajs/swagger";
 import dotenv from "dotenv";
-import { Level } from "adze";
+import adze, { Level } from "adze";
 
 // first load default env
 dotenv.config({ path: ".env" });
 // override with local env if exists 
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env.local", override: true });
 // override with test env if running tests
 if (process.env.NODE_ENV === "test" || process.argv.includes("test")) {
-  dotenv.config({ path: ".env.test" });
+  adze.info("Loading test environment variables");
+  dotenv.config({ path: ".env.test", override: true });
 }
 // override with production env if exists
-dotenv.config({ path: ".env.production" });
+dotenv.config({ path: ".env.production", override: true });
 
 export const config = {
+  db: {
+    dialect: process.env.DB_DIALECT || "postgresql",
+    url: process.env.DATABASE_URL!,
+  },
   port: process.env.PORT || 3000,
   keys: {
     perplexity: process.env.PERPLEXITY_API_KEY!,
