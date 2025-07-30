@@ -1,6 +1,6 @@
 import adze from "adze";
-import { drizzle } from "drizzle-orm/bun-sql";
-import { drizzle as drizzleBunSqlite } from "drizzle-orm/bun-sqlite";
+import { drizzle as drizzlePostgres } from "drizzle-orm/bun-sql";
+import { drizzle as drizzleSqlite } from "drizzle-orm/bun-sqlite";
 import { DefaultLogger } from "drizzle-orm/logger";
 import { Database } from "bun:sqlite";
 
@@ -19,9 +19,9 @@ const createDatabase = () => {
   
   if (dialect === 'sqlite') {
     const sqlite = new Database(databaseUrl);
-    return drizzleBunSqlite(sqlite, { logger });
+    return drizzleSqlite(sqlite, { logger });
   } else {
-    return drizzle({
+    return drizzlePostgres({
       connection: databaseUrl,
       logger
     });
