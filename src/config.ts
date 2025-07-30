@@ -6,6 +6,10 @@ import { Level } from "adze";
 dotenv.config({ path: ".env" });
 // override with local env if exists 
 dotenv.config({ path: ".env.local" });
+// override with test env if running tests
+if (process.env.NODE_ENV === "test" || process.argv.includes("test")) {
+  dotenv.config({ path: ".env.test" });
+}
 // override with production env if exists
 dotenv.config({ path: ".env.production" });
 

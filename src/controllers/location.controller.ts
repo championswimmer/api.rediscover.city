@@ -1,16 +1,16 @@
-import { BunSQLDatabase } from "drizzle-orm/bun-sql";
+import { DatabaseType } from "../db/init";
 import { ReverseGeocodeResponse } from "../services/geocoding";
 import {
   getLocationInfo as getLocationInfoFromService,
   LocationInfoResponse,
 } from "../services/locationinfo";
 import { eq } from "drizzle-orm";
-import { locationInfoTable } from "../db/schema.postgres";
+import { locationInfoTable } from "../db/schema";
 import adze from "adze";
 
 export class LocationController {
-  private readonly db: BunSQLDatabase;
-  constructor(db: BunSQLDatabase) {
+  private readonly db: DatabaseType;
+  constructor(db: DatabaseType) {
     this.db = db;
   }
 
