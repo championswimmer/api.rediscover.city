@@ -7,6 +7,7 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@ai-sdk/google": "^2.0.0-beta.17",
     "@ai-sdk/perplexity": "^2.0.0-beta.8",
     "@elysiajs/server-timing": "^1.3.0",
     "@elysiajs/swagger": "^1.3.1",

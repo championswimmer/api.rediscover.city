@@ -43,5 +43,6 @@ export const config = {
   logs: {
     emoji: true,
     level: <Level>(process.env.NODE_ENV === "production" ? 'warn' : 'debug'),
-  }
+  },
+  aiModel: process.env.AI_MODEL || "perplexity/sonar-pro"
 };
