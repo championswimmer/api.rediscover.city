@@ -9,6 +9,12 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+      GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+      GOOGLE_AI_API_KEY: ${{ secrets.GOOGLE_AI_API_KEY }}
+      AI_MODEL: "google/gemini-2.5-flash-lite"
+      
 
     steps:
     - name: Checkout code
@@ -27,3 +33,5 @@ jobs:
 
     - name: Run tests
       run: bun run test
+      env:
+        NODE_ENV: test
