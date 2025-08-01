@@ -37,6 +37,7 @@ async function reverseGeocode(request: ReverseGeocodeRequest): Promise<ReverseGe
         AddressType.administrative_area_level_1, // state
         AddressType.locality, // city
         AddressType.sublocality, // locality
+        AddressType.sublocality_level_1, // sublocality
         AddressType.neighborhood, // neighborhood
         AddressType.route, // street
       ],
@@ -48,6 +49,7 @@ async function reverseGeocode(request: ReverseGeocodeRequest): Promise<ReverseGe
   const country = findAddressComponent(AddressType.country, results);
   const city = findAddressComponent(AddressType.locality, results);
   const locality = findAddressComponent(AddressType.sublocality, results);
+  const sublocality = findAddressComponent(AddressType.sublocality_level_1, results);
   const neighborhood = findAddressComponent(AddressType.neighborhood, results);
   const street = findAddressComponent(AddressType.route, results);
 
@@ -56,6 +58,7 @@ async function reverseGeocode(request: ReverseGeocodeRequest): Promise<ReverseGe
     country,
     city,
     locality,
+    sublocality,
     neighborhood,
     street,
   })

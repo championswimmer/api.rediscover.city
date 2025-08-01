@@ -33,6 +33,7 @@ describe("database configuration", () => {
       country: "Test Country",
       city: "Test City",
       locality: "Test Locality",
+      sublocality: "Test Sublocality",
       neighborhood: "Test Neighborhood",
       street: "Test Street"
     };

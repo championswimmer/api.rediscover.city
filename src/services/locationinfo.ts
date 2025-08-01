@@ -3,7 +3,7 @@ import { config } from "../config";
 import { createPerplexity } from "@ai-sdk/perplexity";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { LanguageModelV2, SharedV2ProviderOptions } from "@ai-sdk/provider";
-import { generateObject, jsonSchema } from "ai";
+import { generateObject, generateText, jsonSchema } from "ai";
 import { ReverseGeocodeResponse } from "./geocoding";
 import { toJSONSchema } from "@typeschema/typebox";
 import ngeohash from "ngeohash";
@@ -56,7 +56,11 @@ const getModel = (): LanguageModelV2 => {
 }
 
 const getProviderOptions = (): SharedV2ProviderOptions => ({
-  "perplexity": {},
+  "perplexity": {
+    "web_search_options": {
+      "search_context_size": "medium"
+    }
+  },
   "google": {
     "useSearchGrounding": true,
   }
@@ -92,6 +96,8 @@ export async function getLocationInfo(location: ReverseGeocodeResponse): Promise
       longitude,
     }),
   })
+
+  adze.info("response metadata", JSON.stringify(response.providerMetadata, null, 2));
 
   return response.object;
 }

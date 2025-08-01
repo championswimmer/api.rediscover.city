@@ -21,11 +21,14 @@ Your narrative should cover the following aspects of the location:
 3.  **Economy:** What has historically driven the economy here, and what drives it today? Mention any significant industries or local crafts.
 4.  **Demographics:** Communities that have called this place home over the years, contributing to its unique character.
 
-Add facts, figures, historical trivia and interesting details not commonly known.
-Your goal is to tell a compelling story that helps new visitors love the place and old ones rediscover it. 
+Add facts, anecdotes, and interesting tidbits to make the narrative engaging.
+Refer to specific landmarks, streets, or neighborhoods that the visitor might encounter.
+Mention people's names, landmarks, street names and numbers, and any other specific details that would make the narrative vivid and relatable. 
 
 Remember that the visitor is standing in the location you are describing.
 They are more interested in the specific street, locality and neighbourhood, than the city as a whole.
+Focus on the immediate surroundings and the local context.
+Do not include generic information about the city or country that can be found in a Wikipedia article.
 
 The location you will be describing (where the visitor is standing) is:
 Street: ${data.street} ${data.neighborhood}

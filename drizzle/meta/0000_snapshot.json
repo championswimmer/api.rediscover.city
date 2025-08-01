@@ -1,5 +1,5 @@
 {
-  "id": "778c4b4a-8e10-4821-a543-fb850837c976",
+  "id": "4208ec69-d39e-49aa-8884-8bb1ebf448c7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -38,17 +38,23 @@
           "primaryKey": false,
           "notNull": true
         },
+        "sublocality": {
+          "name": "sublocality",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true
+        },
         "neighborhood": {
           "name": "neighborhood",
           "type": "varchar(64)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "street": {
           "name": "street",
           "type": "varchar(64)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -67,6 +73,54 @@
           "name": "geohash",
           "type": "varchar(10)",
           "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "history": {
+          "name": "history",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "culture": {
+          "name": "culture",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "attractions": {
+          "name": "attractions",
+          "type": "jsonb[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "climate": {
+          "name": "climate",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "demographics": {
+          "name": "demographics",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "economy": {
+          "name": "economy",
+          "type": "text",
+          "primaryKey": false,
           "notNull": true
         }
       },

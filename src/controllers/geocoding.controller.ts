@@ -32,6 +32,7 @@ export class GeocodingController {
       country: response.country,
       city: response.city,
       locality: response.locality ?? "",
+      sublocality: response.sublocality ?? "",
       neighborhood: response.neighborhood ?? "",
       street: response.street ?? "",
     });
