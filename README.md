@@ -53,25 +53,20 @@ To get started with development, follow these steps:
 
 ## Database Configuration
 
-The application supports both PostgreSQL (production) and SQLite (testing) databases:
+The application now exclusively uses PostgreSQL for both production and testing:
 
 - **Production**: Uses PostgreSQL with connection string from `DATABASE_URL`
-- **Testing**: Uses SQLite with file path from `DATABASE_URL` when `DB_DIALECT=sqlite`
+- **Testing**: Uses PostgreSQL with connection string from `DATABASE_URL`
 
 Environment configuration:
 - `.env` - Default environment (PostgreSQL)
 - `.env.local` - Local development overrides
-- `.env.test` - Test environment (SQLite) - automatically loaded during tests
+- `.env.test` - Test environment - automatically loaded during tests
 - `.env.production` - Production overrides
-
-The database dialect is controlled by the `DB_DIALECT` environment variable:
-- `postgresql` (default) - Uses PostgreSQL
-- `sqlite` - Uses SQLite (for tests)
 
 Schema files:
 - `src/db/schema.postgres.ts` - PostgreSQL schema with native types
-- `src/db/schema.sqlite.ts` - SQLite schema with compatible types
-- `src/db/schema.ts` - Dynamic schema loader based on dialect
+- `src/db/schema.ts` - Main schema file (PostgreSQL only)
 
 ## Dependencies
 

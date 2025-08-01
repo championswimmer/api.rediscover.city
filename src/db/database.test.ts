@@ -2,11 +2,10 @@ import { describe, it, expect, beforeAll, afterAll } from "bun:test";
 import { db as testDb } from "../db/init";
 import { geohashTable, locationInfoTable } from "../db/schema";
 import { eq } from "drizzle-orm";
-import { BunSQLiteDatabase } from "drizzle-orm/bun-sqlite";
 import adze from "adze";
 
 describe("database configuration", () => {
-  const db = testDb as BunSQLiteDatabase<Record<string, never>>;
+  const db = testDb;
   beforeAll(async () => {
     // Clean up any existing test data
     try {
@@ -27,17 +26,12 @@ describe("database configuration", () => {
     }
   });
 
-  it("should connect to SQLite database when DB_DIALECT is sqlite", async () => {
-    expect(process.env.DB_DIALECT).toBe("sqlite");
-    expect(process.env.DATABASE_URL).toBe("./test.db");
-  });
-
   it("should create and query geohash records", async () => {
     const testGeohash = {
       geohash: "test123",
       geopoint: { x: -74.0060, y: 40.7128 },
       country: "Test Country",
-      city: "Test City", 
+      city: "Test City",
       locality: "Test Locality",
       neighborhood: "Test Neighborhood",
       street: "Test Street"

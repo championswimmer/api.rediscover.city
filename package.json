@@ -26,7 +26,6 @@
     "ngeohash": "^0.6.3"
   },
   "devDependencies": {
-    "@libsql/client": "^0.15.10",
     "@types/bun": "^1.2.19",
     "bun-types": "latest",
     "drizzle-kit": "^0.31.4",
