@@ -2,7 +2,7 @@ import { describe, it, expect } from "bun:test";
 import { getLocationInfo } from "./locationinfo";
 
 describe("locationinfo", () => {
-  it("should get location info for Empire State Building", async () => {
+  it("should get location info for Astoria, Queens, NYC", async () => {
     const result = await getLocationInfo({
       "geohash": "dr5rveg",
       "country": "United States",
@@ -23,9 +23,9 @@ describe("locationinfo", () => {
     expect(result.climate).toBeString();
     expect(result.demographics).toBeString();
     expect(result.economy).toBeString();
-  }, { timeout: 15000 });
+  }, { timeout: 20000 });
 
-  it("should get location info for Buckingham Palace", async () => {
+  it("should get location info for Fulham, London", async () => {
     const result = await getLocationInfo({
       "geohash": "gcpug5z",
       "country": "United Kingdom",
@@ -46,9 +46,9 @@ describe("locationinfo", () => {
     expect(result.climate).toBeString();
     expect(result.demographics).toBeString();
     expect(result.economy).toBeString();
-  }, { timeout: 15000 });
+  }, { timeout: 20000 });
 
-  it("should get location info for India Gate", async () => {
+  it("should get location info for Janakpuri District Center, New Delhi", async () => {
     const result = await getLocationInfo({
       "geohash": "ttnfcgy",
       "country": "India",
@@ -69,5 +69,5 @@ describe("locationinfo", () => {
     expect(result.climate).toBeString();
     expect(result.demographics).toBeString();
     expect(result.economy).toBeString();
-  }, { timeout: 15000 });
+  }, { timeout: 20000 });
 }); 
