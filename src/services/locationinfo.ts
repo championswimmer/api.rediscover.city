@@ -1,4 +1,5 @@
 import { Static, t } from "elysia";
+import { z } from "zod";
 import { config } from "../config";
 import { createPerplexity } from "@ai-sdk/perplexity";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
@@ -82,6 +83,21 @@ export const LocationInfoResponseSchema = t.Object({
 });
 
 export type LocationInfoResponse = Static<typeof LocationInfoResponseSchema>;
+
+export const LocationInfoLLMObjectSchema = z.object({
+  name: z.string().describe("The name of the location"),
+  description: z.string().describe("A short description of the location"),
+  history: z.string().describe("Historical facts about the location"),
+  culture: z.string().describe("Cultural aspects and traditions"),
+  attractions: z.array(z.object({
+    name: z.string().describe("The name of the attraction"),
+    distance: z.string().describe("The distance to the attraction"),
+    whyVisit: z.string().describe("Why this attraction is worth visiting")
+  })).describe("Array of attractions near the location"),
+  climate: z.string().describe("Climate throughout the year in this area"),
+  demographics: z.string().describe("Demographics of the location"),
+  economy: z.string().describe("Economic aspects of the location")
+})
 
 export async function getLocationInfo(location: ReverseGeocodeResponse): Promise<LocationInfoResponse> {
   const { latitude, longitude } = ngeohash.decode(location.geohash);
