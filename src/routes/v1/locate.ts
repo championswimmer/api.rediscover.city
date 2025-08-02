@@ -13,6 +13,7 @@ const route = new Elysia({ prefix: "/locate" })
   }, {
     query: ReverseGeocodeRequestSchema,
     response: ReverseGeocodeResponseSchema,
+    description: "Reverse geocode latitude and longitude to get location details.",
     tags: ["geocoding"]
   });
 

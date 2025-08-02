@@ -13,13 +13,13 @@ export const ReverseGeocodeRequestSchema = t.Object({
 export type ReverseGeocodeRequest = Static<typeof ReverseGeocodeRequestSchema>;
 
 export const ReverseGeocodeResponseSchema = t.Object({
-  geohash: t.String(),
-  country: t.String(),
-  city: t.String(),
-  locality: t.Optional(t.String()),
-  sublocality: t.Optional(t.String()),
-  neighborhood: t.Optional(t.String()),
-  street: t.Optional(t.String()),
+  geohash: t.String({ examples: ["dr5reg", "gcpuv"] }),
+  country: t.String({ examples: ["United States", "United Kingdom"] }),
+  city: t.String({ examples: ["New York", "London"] }),
+  locality: t.Optional(t.String({ examples: ["Manhattan", "Central London"] })),
+  sublocality: t.Optional(t.String({ examples: ["Upper West Side", "Chelsea"] })),
+  neighborhood: t.Optional(t.String({ examples: ["Astoria", "Notting Hill"] })),
+  street: t.Optional(t.String({ examples: ["Crescent Street", "Varna Road"] })),
 });
 
 export type ReverseGeocodeResponse = Static<typeof ReverseGeocodeResponseSchema>;

@@ -75,30 +75,30 @@ const getModel = (): LanguageModelV2 => {
 }
 
 // TODO: re-enable search grounding for PRO users
-// const getProviderOptions = (): SharedV2ProviderOptions => ({
-//   "perplexity": {
-//     "web_search_options": {
-//       "search_context_size": "medium"
-//     }
-//   },
-//   "google": {
-//     "useSearchGrounding": true,
-//   }
-// })
+const getProviderOptions = (): SharedV2ProviderOptions => ({
+  "perplexity": {
+    "web_search_options": {
+      "search_context_size": "medium"
+    }
+  },
+  "google": {
+    "useSearchGrounding": true,
+  }
+})
 
 export const LocationInfoResponseSchema = t.Object({
-  name: t.String({ description: "The name of the location" }),
-  description: t.String({ description: "A short description of the location" }),
-  history: t.String({ description: "Historical facts about the location" }),
-  culture: t.String({ description: "Cultural aspects and traditions" }),
+  name: t.String({ description: "The name of the location", examples: ["Paris", "Tokyo", "New York City"] }),
+  description: t.String({ description: "A short description of the location", examples: ["A vibrant city known for its art and culture...", "A bustling metropolis with a rich history..."] }),
+  history: t.String({ description: "Historical facts about the location", examples: ["Founded in the 3rd century BC...", "Home to the Eiffel Tower since 1889..."] }),
+  culture: t.String({ description: "Cultural aspects and traditions", examples: ["Known for its world-class museums and art galleries...", "Famous for its street food and night markets..."] }),
   attractions: t.Array(t.Object({
-    name: t.String({ description: "The name of the attraction" }),
-    distance: t.String({ description: "The distance to the attraction" }),
-    whyVisit: t.String({ description: "Why this attraction is worth visiting" })
+    name: t.String({ description: "The name of the attraction", examples: ["Eiffel Tower", "Louvre Museum"] }),
+    distance: t.String({ description: "The distance to the attraction", examples: ["2.5 km from city center", "500 meters from the hotel"] }),
+    whyVisit: t.String({ description: "Why this attraction is worth visiting", examples: ["Iconic landmark with stunning city views...", "Home to the world's most famous art collections..."] })
   })),
-  climate: t.String({ description: "Climate throughout the year in this area" }),
-  demographics: t.String({ description: "Demographics of the location" }),
-  economy: t.String({ description: "Economic aspects of the location" }),
+  climate: t.String({ description: "Climate throughout the year in this area", examples: ["Mediterranean climate with hot, dry summers...", "Temperate climate with four distinct seasons..."] }),
+  demographics: t.String({ description: "Demographics of the location", examples: ["Population of 2.1 million people...", "Diverse multicultural community..."] }),
+  economy: t.String({ description: "Economic aspects of the location", examples: ["Major financial hub in Europe...", "Thriving tech industry and startup ecosystem..."] }),
 });
 
 export type LocationInfoResponse = Static<typeof LocationInfoResponseSchema>;
@@ -108,7 +108,7 @@ export async function getLocationInfo(location: ReverseGeocodeResponse): Promise
   adze.info("Getting location info", { latitude, longitude, geohash: location.geohash, model: config.aiModel });
   const response = await generateObject({
     model: getModel(),
-    // providerOptions: getProviderOptions(), // TODO: re-enable search grounding for PRO users
+    providerOptions: getProviderOptions(), // TODO: re-enable search grounding for PRO users
     schema: jsonSchema<LocationInfoResponse>(await toJSONSchema(LocationInfoResponseSchema)),
     prompt: locationInfoPrompt({
       ...location,
@@ -118,7 +118,6 @@ export async function getLocationInfo(location: ReverseGeocodeResponse): Promise
   })
 
   adze.info("response metadata", JSON.stringify(response.providerMetadata, null, 2));
-
 
   return response.object;
 }

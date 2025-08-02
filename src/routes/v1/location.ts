@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { LocationController } from "../../controllers/location.controller";
 import { db } from "../../db/init";
 import { GeocodingController } from "../../controllers/geocoding.controller";
-import { LocationInfoRequestSchema } from "../../services/locationinfo";
+import { LocationInfoRequestSchema, LocationInfoResponseSchema } from "../../services/locationinfo";
 
 /**
  * route mounted at /v1/location
@@ -36,7 +36,7 @@ const route = new Elysia({ prefix: "/location" })
           message: "Bad request: 'lat' and 'lng' must be valid numeric coordinates.",
         };
       }
-      const location = await geoCtrl.reverseGeocode(lat, lng);
+      const location = await geoCtrl.reverseGeocode(query.lat, query.lng);
       const locationInfo = await locCtrl.getLocationInfo(location);
       return locationInfo;
     }
@@ -49,6 +49,8 @@ const route = new Elysia({ prefix: "/location" })
   }, {
     tags: ["location"],
     query: LocationInfoRequestSchema,
+    response: LocationInfoResponseSchema,
+    description: "Get detailed information about location. This uses an AI model to generate information.",
   })
   .get("/nearby", () => {
     return {
