@@ -48,10 +48,10 @@ export const config = {
       ]
     }
   },
-  geohashPrecision: 7,
+  geohashPrecision: Number(process.env.GEOHASH_PRECISION) || 7,
   logs: {
     emoji: true,
     level: <Level>(process.env.NODE_ENV === "production" ? 'warn' : 'debug'),
   },
-  aiModel: process.env.AI_MODEL || "perplexity/sonar-pro"
+  aiModel: process.env.AI_MODEL || "google/gemini-2.5-flash-lite"
 };

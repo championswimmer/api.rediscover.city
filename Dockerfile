@@ -15,6 +15,8 @@ RUN bun install --frozen-lockfile
 COPY src/ ./src/
 COPY drizzle/ ./drizzle/
 COPY tsconfig.json ./
+COPY drizzle.config.ts ./
+COPY .env ./
 
 # Build the application
 RUN bun run build
@@ -30,6 +32,7 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/drizzle ./drizzle
 COPY --from=builder /app/drizzle.config.ts ./drizzle.config.ts
+COPY --from=builder /app/.env ./
 
 # Expose the port the app runs on
 EXPOSE 3000
