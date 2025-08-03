@@ -81,3 +81,67 @@ This project relies on a set of modern and efficient libraries to deliver its fu
 | **[TypeBox](https://github.com/sinclairzx81/typebox)** | A library for creating JSON schemas and validating data, ensuring type safety for API requests. |
 | **[Adze](https://github.com/AJ-Can-Code/adze)**            | A modern, configurable logger for Node.js.                                                        |
 | **[ngeohash](https://github.com/sunng87/node-ngeohash)** | A library for geohashing, used for efficient geographic queries.                                    |
+
+## Codebase Structure
+
+The Rediscover City API follows a modular architecture with a clear separation of concerns:
+
+```
+src/
+├── controllers/          # Business logic and database operations
+├── db/                   # Database configuration and schema definitions
+├── prompts/              # AI prompt templates for content generation
+├── routes/               # API route definitions with validation
+├── services/             # External service integrations and core logic
+└── index.ts              # Application entry point
+```
+
+### Architecture Overview
+
+The application follows a layered architecture pattern:
+
+1. **Routes** - Define API endpoints with request/response validation using TypeBox schemas
+2. **Controllers** - Handle business logic, coordinate between services and database operations
+3. **Services** - Interact with external APIs (Google Maps, AI models) and implement core functionality
+4. **Database** - PostgreSQL database with Drizzle ORM for data persistence
+
+### Core Components
+
+#### Controllers
+- `GeocodingController` - Handles reverse geocoding operations and geohash management
+- `LocationController` - Manages location information retrieval and caching
+
+#### Services
+- `geocoding.ts` - Integrates with Google Maps API for reverse geocoding
+- `locationinfo.ts` - Coordinates with AI models to generate location narratives
+
+#### Routes
+- `v1/locate.ts` - Reverse geocoding endpoint (`/v1/locate`)
+- `v1/location.ts` - Location information endpoints (`/v1/location/info`, `/v1/location/nearby`)
+
+#### Database Models
+- `geohashTable` - Stores geocoded location data with geohash as primary key
+- `locationInfoTable` - Caches AI-generated location information
+
+### Data Flow
+
+1. **Reverse Geocoding** (`/v1/locate`):
+   - Client sends lat/lng coordinates
+   - GeocodingController checks cache (geohashTable)
+   - If not found, GeocodingService calls Google Maps API
+   - Result is cached in database
+
+2. **Location Information** (`/v1/location/info`):
+   - Client sends geohash or lat/lng coordinates
+   - LocationController checks cache (locationInfoTable)
+   - If not found, LocationService calls AI model with prompt
+   - Result is cached in database
+
+### Caching Strategy
+
+The application implements a two-tier caching system:
+
+1. **Geohash Cache**: Stores reverse geocoded location data to avoid repeated Google Maps API calls
+2. **Location Info Cache**: Stores AI-generated narratives to avoid repeated AI API calls
+
+Both caches use PostgreSQL tables with geohash as the primary key for efficient lookups.
