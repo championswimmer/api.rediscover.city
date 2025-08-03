@@ -7,7 +7,6 @@
     "test": "NODE_ENV=test bun test src/**/*.test.ts",
     "test:watch": "NODE_ENV=test bun test --watch src/**/*.test.ts",
     "dev": "bun run --watch src/index.ts",
-    "prestart": "bunx drizzle-kit migrate",
     "start": "bun run dist/index.js"
   },
   "dependencies": {
