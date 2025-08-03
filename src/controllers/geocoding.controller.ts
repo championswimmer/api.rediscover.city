@@ -1,7 +1,7 @@
 import { DatabaseType } from "../db/init";
 import { geohashTable } from "../db/schema";
 import { eq } from "drizzle-orm";
-import { config } from "../config";
+import { config } from "../../config";
 import { reverseGeocode, ReverseGeocodeResponse } from "../services/geocoding";
 import ngeohash from "ngeohash";
 import adze from "adze";

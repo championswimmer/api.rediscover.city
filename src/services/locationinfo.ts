@@ -1,5 +1,5 @@
 import { Static, t } from "elysia";
-import { config } from "../config";
+import { config } from "../../config";
 import { createPerplexity } from "@ai-sdk/perplexity";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { LanguageModelV2, SharedV2ProviderOptions } from "@ai-sdk/provider";

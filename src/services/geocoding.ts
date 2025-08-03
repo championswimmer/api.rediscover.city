@@ -1,4 +1,4 @@
-import { config } from "../config";
+import { config } from "../../config";
 import ngeohash from "ngeohash";
 import { AddressType, Client, GeocodeResult } from "@googlemaps/google-maps-services-js"
 import { t, Static } from "elysia";

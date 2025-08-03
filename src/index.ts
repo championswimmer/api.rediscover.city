@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { config } from "./config";
+import { config } from "../config";
 import locate from "./routes/v1/locate";
 import location from "./routes/v1/location";
 import { serverTiming } from "@elysiajs/server-timing";

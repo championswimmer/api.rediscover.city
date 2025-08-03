@@ -1,5 +1,5 @@
 import adze from "adze";
-import { config } from "../config";
+import { config } from "../../config";
 import { drizzle as drizzlePostgres } from "drizzle-orm/bun-sql";
 import { DefaultLogger } from "drizzle-orm/logger";
 
