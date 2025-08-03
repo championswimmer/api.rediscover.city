@@ -33,4 +33,4 @@ COPY --from=builder /app/package.json ./package.json
 EXPOSE 3000
 
 # Define the command to run the application
-CMD ["bun", "run", "dist/index.js"]
+CMD ["bun", "run", "start"]
