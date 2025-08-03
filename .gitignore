@@ -47,5 +47,6 @@ package-lock.json
 
 # database 
 /postgres_data/
+/postgres_test_data/
 *.db
 *.db-*

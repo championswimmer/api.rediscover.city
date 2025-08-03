@@ -17,6 +17,7 @@ dotenv.config({ path: ".env.production", override: true });
 export const config = {
   db: {
     url: process.env.DATABASE_URL!,
+    dialect: process.env.DB_DIALECT || "postgres", // default to postgres if not set
   },
   port: process.env.PORT || 3000,
   keys: {

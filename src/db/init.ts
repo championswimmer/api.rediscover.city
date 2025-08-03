@@ -1,7 +1,9 @@
 import adze from "adze";
 import { config } from "../../config";
+import { drizzle as drizzlePglite } from "drizzle-orm/pglite"
 import { drizzle as drizzlePostgres } from "drizzle-orm/bun-sql";
 import { DefaultLogger } from "drizzle-orm/logger";
+import { PGlite } from "@electric-sql/pglite";
 
 const logger = new DefaultLogger({
   writer: {
@@ -15,6 +17,11 @@ const logger = new DefaultLogger({
 const createDatabase = () => {
   const databaseUrl = config.db.url;
   adze.ns("db").info("Creating PostgreSQL database connection", { databaseUrl });
+
+  if (config.db.dialect === "pglite") {
+    const client = new PGlite(databaseUrl) // when using PGlite, no db url. db is in memory
+    return drizzlePglite(client, { logger });
+  }
 
   return drizzlePostgres({
     connection: databaseUrl,
