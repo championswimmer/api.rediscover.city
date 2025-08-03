@@ -36,6 +36,14 @@ services:
       timeout: 10s
       retries: 3
 
+  api:
+    build: .
+    container_name: rediscover_api
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+
 volumes:
   postgres_data:
   postgres_test_data:
