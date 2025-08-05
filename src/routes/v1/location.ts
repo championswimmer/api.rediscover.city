@@ -3,12 +3,14 @@ import { LocationController } from "../../controllers/location.controller";
 import { db } from "../../db/init";
 import { GeocodingController } from "../../controllers/geocoding.controller";
 import { LocationInfoRequestSchema, LocationInfoResponseSchema } from "../../services/locationinfo";
+import { authPlugin } from "../../middleware/auth.middleware";
 
 /**
  * route mounted at /v1/location
  */
 
 const route = new Elysia({ prefix: "/location" })
+  .use(authPlugin())
   .decorate("locCtrl", new LocationController(db))
   .decorate("geoCtrl", new GeocodingController(db))
   .get("/info", async ({ query, locCtrl, geoCtrl, set }) => {
@@ -50,14 +52,23 @@ const route = new Elysia({ prefix: "/location" })
     tags: ["location"],
     query: LocationInfoRequestSchema,
     response: LocationInfoResponseSchema,
-    description: "Get detailed information about location. This uses an AI model to generate information.",
+    description: "Get detailed information about location. This uses an AI model to generate information. Requires JWT authentication.",
   })
   .get("/nearby", () => {
     return {
       message: "Hello World",
     };
   }, {
-    tags: ["location"]
+    tags: ["location"],
+    description: "Get nearby locations. Requires JWT authentication.",
+  })
+  .get("/test-auth", () => {
+    return {
+      message: "Authentication working!",
+    };
+  }, {
+    tags: ["location"],
+    description: "Test authentication endpoint.",
   })
 
 export default route;
