@@ -1,19 +1,64 @@
 import { Elysia } from "elysia";
+import { jwt } from "@elysiajs/jwt";
 import { LocationController } from "../../controllers/location.controller";
 import { db } from "../../db/init";
 import { GeocodingController } from "../../controllers/geocoding.controller";
 import { LocationInfoRequestSchema, LocationInfoResponseSchema } from "../../services/locationinfo";
-import { authPlugin } from "../../middleware/auth.middleware";
+import { AuthController } from "../../controllers/auth.controller";
+import { config } from "../../../config";
 
 /**
  * route mounted at /v1/location
  */
 
+// Helper function to authenticate requests
+async function authenticateRequest(headers: any, jwt: any, authCtrl: any, set: any) {
+  const authorization = headers.authorization;
+  
+  if (!authorization) {
+    set.status = 401;
+    return { message: "Authorization header required" };
+  }
+
+  const token = authorization.startsWith("Bearer ")
+    ? authorization.substring(7)
+    : authorization;
+
+  try {
+    const payload = await jwt.verify(token);
+    
+    if (!payload || typeof payload !== "object" || !payload.userId) {
+      set.status = 401;
+      return { message: "Invalid token" };
+    }
+
+    const user = await authCtrl.getUserById(payload.userId);
+    
+    if (!user) {
+      set.status = 401;
+      return { message: "User not found" };
+    }
+
+    return null; // Authentication successful
+  } catch (error) {
+    set.status = 401;
+    return { message: "Invalid or expired token" };
+  }
+}
+
 const route = new Elysia({ prefix: "/location" })
-  .use(authPlugin())
+  .use(jwt({
+    name: "jwt",
+    secret: config.keys.jwt,
+  }))
   .decorate("locCtrl", new LocationController(db))
   .decorate("geoCtrl", new GeocodingController(db))
-  .get("/info", async ({ query, locCtrl, geoCtrl, set }) => {
+  .decorate("authCtrl", new AuthController(db))
+  .get("/info", async ({ query, locCtrl, geoCtrl, set, headers, jwt, authCtrl }) => {
+    // Authentication check
+    const authResult = await authenticateRequest(headers, jwt, authCtrl, set);
+    if (authResult) return authResult;
+
     // Check if geohash is provided
     if (query.geohash) {
       const location = await geoCtrl.getLocationFromGeohash(query.geohash);
@@ -54,7 +99,11 @@ const route = new Elysia({ prefix: "/location" })
     response: LocationInfoResponseSchema,
     description: "Get detailed information about location. This uses an AI model to generate information. Requires JWT authentication.",
   })
-  .get("/nearby", () => {
+  .get("/nearby", async ({ headers, jwt, authCtrl, set }) => {
+    // Authentication check
+    const authResult = await authenticateRequest(headers, jwt, authCtrl, set);
+    if (authResult) return authResult;
+
     return {
       message: "Hello World",
     };
@@ -62,7 +111,11 @@ const route = new Elysia({ prefix: "/location" })
     tags: ["location"],
     description: "Get nearby locations. Requires JWT authentication.",
   })
-  .get("/test-auth", () => {
+  .get("/test-auth", async ({ headers, jwt, authCtrl, set }) => {
+    // Authentication check
+    const authResult = await authenticateRequest(headers, jwt, authCtrl, set);
+    if (authResult) return authResult;
+
     return {
       message: "Authentication working!",
     };
