@@ -14,8 +14,23 @@ export const LoginResponseSchema = Type.Object({
   }),
 });
 
+export const RegisterRequestSchema = Type.Object({
+  email: Type.String({ format: "email" }),
+  password: Type.String({ minLength: 6 }),
+});
+
+export const RegisterResponseSchema = Type.Object({
+  token: Type.String(),
+  user: Type.Object({
+    id: Type.String(),
+    email: Type.String(),
+  }),
+});
+
 export type LoginRequest = typeof LoginRequestSchema.static;
 export type LoginResponse = typeof LoginResponseSchema.static;
+export type RegisterRequest = typeof RegisterRequestSchema.static;
+export type RegisterResponse = typeof RegisterResponseSchema.static;
 
 export class AuthService {
   private static readonly ITERATIONS = 100000;

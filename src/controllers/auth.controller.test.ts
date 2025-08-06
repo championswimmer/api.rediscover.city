@@ -86,4 +86,12 @@ describe("AuthController", () => {
     
     expect(user).toBeNull();
   });
+
+  it("should throw error when creating user with duplicate email", async () => {
+    // Create a user first
+    await authCtrl.createUser(testEmail, testPassword);
+    
+    // Attempt to create another user with same email
+    await expect(authCtrl.createUser(testEmail, testPassword)).rejects.toThrow("User with this email already exists");
+  });
 });

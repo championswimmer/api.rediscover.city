@@ -45,9 +45,21 @@ export class AuthController {
   }
 
   /**
-   * Create a new user (for testing purposes - not required by the issue)
+   * Create a new user
    */
   async createUser(email: string, password: string): Promise<UserModel> {
+    // Check if user already exists
+    const existingUser = await this.db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, email))
+      .limit(1)
+      .then(users => users[0] || null);
+
+    if (existingUser) {
+      throw new Error("User with this email already exists");
+    }
+
     const passwordHash = AuthService.hashPassword(password);
     
     const [user] = await this.db
