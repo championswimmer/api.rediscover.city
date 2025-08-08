@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1754019488928,
-      "tag": "0000_wide_blade",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1754382946020,
-      "tag": "0001_tiny_johnny_blaze",
+      "when": 1754629633652,
+      "tag": "0000_green_liz_osborn",
       "breakpoints": true
     }
   ]
