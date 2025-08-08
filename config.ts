@@ -25,6 +25,7 @@ export const config = {
     googlemaps: process.env.GOOGLE_MAPS_API_KEY!,
     googleai: process.env.GOOGLE_AI_API_KEY!,
     openai: process.env.OPENAI_API_KEY!,
+    jwt: process.env.JWT_SECRET || "your-super-secret-jwt-key-change-in-production",
   },
   swaggerConfig: <ElysiaSwaggerConfig>{
     documentation: {
@@ -39,6 +40,10 @@ export const config = {
       },
       tags: [
         {
+          name: "auth",
+          description: "Authentication API"
+        },
+        {
           name: "geocoding",
           description: "Geocoding API"
         },
@@ -46,7 +51,21 @@ export const config = {
           name: "location",
           description: "Location Information API"
         }
-      ]
+      ],
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
     }
   },
   geohashPrecision: Number(process.env.GEOHASH_PRECISION) || 7,
