@@ -7,7 +7,8 @@
     "test": "NODE_ENV=test bun test src/**/*.test.ts",
     "test:watch": "NODE_ENV=test bun test --watch src/**/*.test.ts",
     "dev": "bun run --watch src/index.ts",
-    "start": "bun run dist/index.js"
+    "start": "bun run dist/index.js",
+    "create_invite": "bun run src/scripts/create_invite.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.0",

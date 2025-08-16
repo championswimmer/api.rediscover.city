@@ -17,6 +17,7 @@ export const LoginResponseSchema = Type.Object({
 export const RegisterRequestSchema = Type.Object({
   email: Type.String({ format: "email" }),
   password: Type.String({ minLength: 6 }),
+  code: Type.String({ minLength: 8, maxLength: 8 }),
 });
 
 export const RegisterResponseSchema = Type.Object({
