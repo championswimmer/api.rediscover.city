@@ -52,7 +52,7 @@ const route = new Elysia({ prefix: "/auth" })
   })
   .post("/register", async ({ body, jwt, set, authCtrl }) => {
     try {
-      const user = await authCtrl.createUser(body.email, body.password);
+      const user = await authCtrl.createUser(body.email, body.password, body.code);
 
       const token = await jwt.sign({
         userId: user.id,
@@ -74,6 +74,13 @@ const route = new Elysia({ prefix: "/auth" })
         };
       }
       
+      if (error instanceof Error && error.message === "Invalid invite code for this email") {
+        set.status = 400;
+        return {
+          message: "Invalid invite code for this email",
+        };
+      }
+      
       set.status = 500;
       return {
         message: "Internal server error",
@@ -83,6 +90,9 @@ const route = new Elysia({ prefix: "/auth" })
     body: RegisterRequestSchema,
     response: {
       200: RegisterResponseSchema,
+      400: t.Object({
+        message: t.String(),
+      }),
       409: t.Object({
         message: t.String(),
       }),
@@ -90,7 +100,7 @@ const route = new Elysia({ prefix: "/auth" })
         message: t.String(),
       }),
     },
-    description: "Register a new user account and get JWT token",
+    description: "Register a new user account with invite code and get JWT token",
     tags: ["auth"],
     detail: {
       security: []

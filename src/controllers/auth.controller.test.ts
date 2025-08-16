@@ -1,35 +1,48 @@
 import { describe, it, expect, beforeEach, afterEach } from "bun:test";
 import { AuthController } from "../controllers/auth.controller";
+import { InviteController } from "../controllers/invite.controller";
 import { db as testDb } from "../db/init";
-import { usersTable } from "../db/schema";
+import { usersTable, invitesTable } from "../db/schema";
 import { eq } from "drizzle-orm";
 import adze from "adze";
 
 describe("AuthController", () => {
   const authCtrl = new AuthController(testDb);
+  const inviteCtrl = new InviteController(testDb);
   const testEmail = "test@example.com";
   const testPassword = "testPassword123";
+  let testInviteCode: string;
 
   beforeEach(async () => {
-    // Clean up any existing test users
+    // Clean up any existing test users and invites
     try {
       await testDb.delete(usersTable).where(eq(usersTable.email, testEmail));
+      await testDb.delete(invitesTable).where(eq(invitesTable.email, testEmail));
     } catch (error) {
-      adze.ns("auth:test").error("Error cleaning up test users", { error });
+      adze.ns("auth:test").error("Error cleaning up test data", { error });
+    }
+
+    // Create a test invite
+    try {
+      const invite = await inviteCtrl.createInvite(testEmail);
+      testInviteCode = invite.code;
+    } catch (error) {
+      adze.ns("auth:test").error("Error creating test invite", { error });
     }
   });
 
   afterEach(async () => {
-    // Clean up test users
+    // Clean up test data
     try {
       await testDb.delete(usersTable).where(eq(usersTable.email, testEmail));
+      await testDb.delete(invitesTable).where(eq(invitesTable.email, testEmail));
     } catch (error) {
-      adze.ns("auth:test").error("Error cleaning up test users", { error });
+      adze.ns("auth:test").error("Error cleaning up test data", { error });
     }
   });
 
   it("should create a user successfully", async () => {
-    const user = await authCtrl.createUser(testEmail, testPassword);
+    const user = await authCtrl.createUser(testEmail, testPassword, testInviteCode);
     
     expect(user.email).toBe(testEmail);
     expect(user.id).toBeDefined();
@@ -41,7 +54,7 @@ describe("AuthController", () => {
 
   it("should login with correct credentials", async () => {
     // Create a user first
-    const createdUser = await authCtrl.createUser(testEmail, testPassword);
+    const createdUser = await authCtrl.createUser(testEmail, testPassword, testInviteCode);
     
     // Attempt login
     const user = await authCtrl.login(testEmail, testPassword);
@@ -53,7 +66,7 @@ describe("AuthController", () => {
 
   it("should fail login with incorrect password", async () => {
     // Create a user first
-    await authCtrl.createUser(testEmail, testPassword);
+    await authCtrl.createUser(testEmail, testPassword, testInviteCode);
     
     // Attempt login with wrong password
     const user = await authCtrl.login(testEmail, "wrongPassword");
@@ -70,7 +83,7 @@ describe("AuthController", () => {
 
   it("should get user by ID", async () => {
     // Create a user first
-    const createdUser = await authCtrl.createUser(testEmail, testPassword);
+    const createdUser = await authCtrl.createUser(testEmail, testPassword, testInviteCode);
     
     // Get user by ID
     const user = await authCtrl.getUserById(createdUser.id);
@@ -89,9 +102,26 @@ describe("AuthController", () => {
 
   it("should throw error when creating user with duplicate email", async () => {
     // Create a user first
-    await authCtrl.createUser(testEmail, testPassword);
+    await authCtrl.createUser(testEmail, testPassword, testInviteCode);
     
-    // Attempt to create another user with same email
-    await expect(authCtrl.createUser(testEmail, testPassword)).rejects.toThrow("User with this email already exists");
+    // Create another invite for a different email to test the duplicate user scenario
+    const differentEmail = "different@example.com";
+    const differentInvite = await inviteCtrl.createInvite(differentEmail);
+    
+    // Attempt to create another user with same email (but different invite for different email should still fail)
+    await expect(authCtrl.createUser(testEmail, testPassword, differentInvite.code)).rejects.toThrow("User with this email already exists");
+    
+    // Clean up the different invite
+    await inviteCtrl.deleteInvite(differentEmail);
+  });
+
+  it("should throw error when creating user with invalid invite code", async () => {
+    // Attempt to create user with invalid invite code
+    await expect(authCtrl.createUser(testEmail, testPassword, "invalid1")).rejects.toThrow("Invalid invite code for this email");
+  });
+
+  it("should throw error when creating user with correct code but wrong email", async () => {
+    // Attempt to create user with valid code but wrong email
+    await expect(authCtrl.createUser("wrong@email.com", testPassword, testInviteCode)).rejects.toThrow("Invalid invite code for this email");
   });
 });

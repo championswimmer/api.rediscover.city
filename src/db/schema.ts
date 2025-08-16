@@ -32,7 +32,16 @@ export const usersTable = pgTable("users", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const invitesTable = pgTable("invites", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  code: varchar("code", { length: 8 }).notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export type GeohashModel = typeof geohashTable.$inferSelect;
 export type LocationInfoModel = typeof locationInfoTable.$inferSelect;
 export type UserModel = typeof usersTable.$inferSelect;
 export type NewUserModel = typeof usersTable.$inferInsert;
+export type InviteModel = typeof invitesTable.$inferSelect;
+export type NewInviteModel = typeof invitesTable.$inferInsert;
