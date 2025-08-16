@@ -2,9 +2,14 @@ import { eq } from "drizzle-orm";
 import { DatabaseType } from "../db/init";
 import { usersTable, UserModel } from "../db/schema";
 import { AuthService } from "../services/auth";
+import { InviteController } from "./invite.controller";
 
 export class AuthController {
-  constructor(private db: DatabaseType) {}
+  private inviteCtrl: InviteController;
+
+  constructor(private db: DatabaseType) {
+    this.inviteCtrl = new InviteController(db);
+  }
 
   /**
    * Authenticate user with email and password
@@ -47,8 +52,8 @@ export class AuthController {
   /**
    * Create a new user
    */
-  async createUser(email: string, password: string): Promise<UserModel> {
-    // Check if user already exists
+  async createUser(email: string, password: string, inviteCode: string): Promise<UserModel> {
+    // Check if user already exists first
     const existingUser = await this.db
       .select()
       .from(usersTable)
@@ -60,6 +65,12 @@ export class AuthController {
       throw new Error("User with this email already exists");
     }
 
+    // Validate invite code
+    const isValidInvite = await this.inviteCtrl.validateInvite(email, inviteCode);
+    if (!isValidInvite) {
+      throw new Error("Invalid invite code for this email");
+    }
+
     const passwordHash = AuthService.hashPassword(password);
     
     const [user] = await this.db
@@ -69,6 +80,9 @@ export class AuthController {
         passwordHash,
       })
       .returning();
+
+    // Delete the invite after successful registration
+    await this.inviteCtrl.deleteInvite(email);
 
     return user;
   }
