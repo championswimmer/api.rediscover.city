@@ -10,42 +10,6 @@ import { config } from "../../../config";
 /**
  * route mounted at /v1/location
  */
-
-// Helper function to authenticate requests
-async function authenticateRequest(headers: any, jwt: any, authCtrl: any, set: any) {
-  const authorization = headers.authorization;
-  
-  if (!authorization) {
-    set.status = 401;
-    return { message: "Authorization header required" };
-  }
-
-  const token = authorization.startsWith("Bearer ")
-    ? authorization.substring(7)
-    : authorization;
-
-  try {
-    const payload = await jwt.verify(token);
-    
-    if (!payload || typeof payload !== "object" || !payload.userId) {
-      set.status = 401;
-      return { message: "Invalid token" };
-    }
-
-    const user = await authCtrl.getUserById(String(payload.userId));
-    
-    if (!user) {
-      set.status = 401;
-      return { message: "User not found" };
-    }
-
-    return null; // Authentication successful
-  } catch (error) {
-    set.status = 401;
-    return { message: "Invalid or expired token" };
-  }
-}
-
 const route = new Elysia({ prefix: "/location" })
   .use(jwt({
     name: "jwt",
@@ -55,9 +19,9 @@ const route = new Elysia({ prefix: "/location" })
   .decorate("geoCtrl", new GeocodingController(db))
   .decorate("authCtrl", new AuthController(db))
   .get("/info", async ({ query, locCtrl, geoCtrl, set, headers, jwt, authCtrl }) => {
-    // Authentication check
-    const authResult = await authenticateRequest(headers, jwt, authCtrl, set);
-    if (authResult) return authResult;
+    // Authentication using centralized method
+    const authResult = await authCtrl.authenticateRequest(headers, jwt, set);
+    if (authResult.error) return authResult.error;
 
     // Check if geohash is provided
     if (query.geohash) {
@@ -114,9 +78,9 @@ const route = new Elysia({ prefix: "/location" })
     }
   })
   .get("/nearby", async ({ headers, jwt, authCtrl, set }) => {
-    // Authentication check
-    const authResult = await authenticateRequest(headers, jwt, authCtrl, set);
-    if (authResult) return authResult;
+    // Authentication using centralized method
+    const authResult = await authCtrl.authenticateRequest(headers, jwt, set);
+    if (authResult.error) return authResult.error;
 
     return {
       message: "Hello World",

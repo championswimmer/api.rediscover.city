@@ -50,6 +50,43 @@ export class AuthController {
   }
 
   /**
+   * Authenticate JWT request - centralizes auth logic for all protected routes
+   */
+  async authenticateRequest(headers: any, jwt: any, set: any): Promise<{ error?: any; user?: UserModel }> {
+    const authorization = headers.authorization;
+    
+    if (!authorization) {
+      set.status = 401;
+      return { error: { message: "Authorization header required" } };
+    }
+
+    const token = authorization.startsWith("Bearer ")
+      ? authorization.substring(7)
+      : authorization;
+
+    try {
+      const payload = await jwt.verify(token);
+      
+      if (!payload || typeof payload !== "object" || !payload.userId) {
+        set.status = 401;
+        return { error: { message: "Invalid token" } };
+      }
+
+      const user = await this.getUserById(String(payload.userId));
+      
+      if (!user) {
+        set.status = 401;
+        return { error: { message: "User not found" } };
+      }
+
+      return { user };
+    } catch (error) {
+      set.status = 401;
+      return { error: { message: "Invalid or expired token" } };
+    }
+  }
+
+  /**
    * Create a new user
    */
   async createUser(email: string, password: string, inviteCode: string): Promise<UserModel> {
