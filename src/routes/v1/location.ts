@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 import { LocationController } from "../../controllers/location.controller";
 import { db } from "../../db/init";
@@ -32,7 +32,7 @@ async function authenticateRequest(headers: any, jwt: any, authCtrl: any, set: a
       return { message: "Invalid token" };
     }
 
-    const user = await authCtrl.getUserById(payload.userId);
+    const user = await authCtrl.getUserById(String(payload.userId));
     
     if (!user) {
       set.status = 401;
@@ -96,8 +96,22 @@ const route = new Elysia({ prefix: "/location" })
   }, {
     tags: ["location"],
     query: LocationInfoRequestSchema,
-    response: LocationInfoResponseSchema,
+    response: {
+      200: LocationInfoResponseSchema,
+      400: t.Object({
+        message: t.String(),
+      }),
+      401: t.Object({
+        message: t.String(),
+      }),
+      404: t.Object({
+        message: t.String(),
+      }),
+    },
     description: "Get detailed information about location. This uses an AI model to generate information. Requires JWT authentication.",
+    detail: {
+      security: [{ bearerAuth: [] }]
+    }
   })
   .get("/nearby", async ({ headers, jwt, authCtrl, set }) => {
     // Authentication check
@@ -109,7 +123,18 @@ const route = new Elysia({ prefix: "/location" })
     };
   }, {
     tags: ["location"],
+    response: {
+      200: t.Object({
+        message: t.String(),
+      }),
+      401: t.Object({
+        message: t.String(),
+      }),
+    },
     description: "Get nearby locations. Requires JWT authentication.",
+    detail: {
+      security: [{ bearerAuth: [] }]
+    }
   })
   .get("/test-auth", async ({ headers, jwt, authCtrl, set }) => {
     // Authentication check
@@ -121,7 +146,18 @@ const route = new Elysia({ prefix: "/location" })
     };
   }, {
     tags: ["location"],
+    response: {
+      200: t.Object({
+        message: t.String(),
+      }),
+      401: t.Object({
+        message: t.String(),
+      }),
+    },
     description: "Test authentication endpoint.",
+    detail: {
+      security: [{ bearerAuth: [] }]
+    }
   })
 
 export default route;

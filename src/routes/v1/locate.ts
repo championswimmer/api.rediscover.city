@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 import { ReverseGeocodeRequestSchema, ReverseGeocodeResponseSchema } from "../../services/geocoding";
 import { db } from "../../db/init";
@@ -37,7 +37,7 @@ const route = new Elysia({ prefix: "/locate" })
         return { message: "Invalid token" };
       }
 
-      const user = await authCtrl.getUserById(payload.userId);
+      const user = await authCtrl.getUserById(String(payload.userId));
       
       if (!user) {
         set.status = 401;
@@ -52,9 +52,17 @@ const route = new Elysia({ prefix: "/locate" })
     }
   }, {
     query: ReverseGeocodeRequestSchema,
-    response: ReverseGeocodeResponseSchema,
+    response: {
+      200: ReverseGeocodeResponseSchema,
+      401: t.Object({
+        message: t.String(),
+      }),
+    },
     description: "Reverse geocode latitude and longitude to get location details. Requires JWT authentication.",
-    tags: ["geocoding"]
+    tags: ["geocoding"],
+    detail: {
+      security: [{ bearerAuth: [] }]
+    }
   });
 
 export default route;

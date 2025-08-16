@@ -61,11 +61,6 @@ export const config = {
           },
         },
       },
-      security: [
-        {
-          bearerAuth: [],
-        },
-      ],
     }
   },
   geohashPrecision: Number(process.env.GEOHASH_PRECISION) || 7,

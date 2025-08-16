@@ -46,6 +46,9 @@ const route = new Elysia({ prefix: "/auth" })
     },
     description: "Login with email and password to get JWT token",
     tags: ["auth"],
+    detail: {
+      security: []
+    }
   })
   .post("/register", async ({ body, jwt, set, authCtrl }) => {
     try {
@@ -89,6 +92,9 @@ const route = new Elysia({ prefix: "/auth" })
     },
     description: "Register a new user account and get JWT token",
     tags: ["auth"],
+    detail: {
+      security: []
+    }
   });
 
 export default route;
