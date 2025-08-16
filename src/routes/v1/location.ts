@@ -136,28 +136,5 @@ const route = new Elysia({ prefix: "/location" })
       security: [{ bearerAuth: [] }]
     }
   })
-  .get("/test-auth", async ({ headers, jwt, authCtrl, set }) => {
-    // Authentication check
-    const authResult = await authenticateRequest(headers, jwt, authCtrl, set);
-    if (authResult) return authResult;
-
-    return {
-      message: "Authentication working!",
-    };
-  }, {
-    tags: ["location"],
-    response: {
-      200: t.Object({
-        message: t.String(),
-      }),
-      401: t.Object({
-        message: t.String(),
-      }),
-    },
-    description: "Test authentication endpoint.",
-    detail: {
-      security: [{ bearerAuth: [] }]
-    }
-  })
 
 export default route;
