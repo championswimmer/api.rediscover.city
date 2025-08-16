@@ -11,9 +11,9 @@
     "create_invite": "bun run src/scripts/create_invite.ts"
   },
   "dependencies": {
-    "@ai-sdk/google": "^2.0.0",
-    "@ai-sdk/openai": "^2.0.0",
-    "@ai-sdk/perplexity": "^2.0.0",
+    "@ai-sdk/google": "^2.0.6",
+    "@ai-sdk/openai": "^2.0.15",
+    "@ai-sdk/perplexity": "^2.0.3",
     "@elysiajs/jwt": "^1.3.2",
     "@elysiajs/server-timing": "^1.3.0",
     "@elysiajs/swagger": "^1.3.1",
@@ -23,7 +23,7 @@
     "@types/ngeohash": "^0.6.8",
     "@typeschema/typebox": "^0.14.0",
     "adze": "^2.2.5",
-    "ai": "^5.0.0",
+    "ai": "^5.0.15",
     "dotenv": "^17.2.0",
     "drizzle-orm": "^0.44.3",
     "elysia": "latest",

@@ -4,15 +4,17 @@ import adze, { Level } from "adze";
 
 // first load default env
 dotenv.config({ path: ".env" });
-// override with local env if exists 
-dotenv.config({ path: ".env.local", override: true });
 // override with test env if running tests
 if (process.env.NODE_ENV === "test" || process.argv.includes("test")) {
   adze.info("Loading test environment variables");
   dotenv.config({ path: ".env.test", override: true });
+} else {
+  // override with production env if exists (only if not in testing)
+  adze.info("Loading production environment variables");
+  dotenv.config({ path: ".env.production", override: true });
 }
-// override with production env if exists
-dotenv.config({ path: ".env.production", override: true });
+// override with local env if exists 
+dotenv.config({ path: ".env.local", override: true });
 
 export const config = {
   db: {

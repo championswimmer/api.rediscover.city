@@ -42,10 +42,8 @@ const models = {
     gemini_2_5_flash_lite: google("gemini-2.5-flash-lite"),
   },
   openai: {
-    gpt_4_1: openai.responses("gpt-4.1"),
-    gpt_4_1_mini: openai.responses("gpt-4.1-mini"),
-    o3: openai.responses("o3"),
-    o3_mini: openai.responses("o3-mini"),
+    gpt_5: openai.responses("gpt-5"),
+    gpt_5_mini: openai.responses("gpt-5-mini"),
   }
 }
 
@@ -61,14 +59,10 @@ const getModel = (): LanguageModelV2 => {
       return models.google.gemini_2_5_flash;
     case "google/gemini-2.5-flash-lite":
       return models.google.gemini_2_5_flash_lite;
-    case "openai/gpt-4.1-mini":
-      return models.openai.gpt_4_1_mini;
-    case "openai/gpt-4.1":
-      return models.openai.gpt_4_1;
-    case "openai/o3-mini":
-      return models.openai.o3_mini;
-    case "openai/o3":
-      return models.openai.o3;
+    case "openai/gpt-5":
+      return models.openai.gpt_5;
+    case "openai/gpt-5-mini":
+      return models.openai.gpt_5_mini;
     default:
       throw new Error(`Unknown model: ${config.aiModel}`);
   }
