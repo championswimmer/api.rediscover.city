@@ -104,11 +104,15 @@ describe("AuthController", () => {
     // Create a user first
     await authCtrl.createUser(testEmail, testPassword, testInviteCode);
     
-    // Create another invite for the test
-    const secondInvite = await inviteCtrl.createInvite("second" + testEmail);
+    // Create another invite for a different email to test the duplicate user scenario
+    const differentEmail = "different@example.com";
+    const differentInvite = await inviteCtrl.createInvite(differentEmail);
     
-    // Attempt to create another user with same email (but different invite)
-    await expect(authCtrl.createUser(testEmail, testPassword, secondInvite.code)).rejects.toThrow("User with this email already exists");
+    // Attempt to create another user with same email (but different invite for different email should still fail)
+    await expect(authCtrl.createUser(testEmail, testPassword, differentInvite.code)).rejects.toThrow("User with this email already exists");
+    
+    // Clean up the different invite
+    await inviteCtrl.deleteInvite(differentEmail);
   });
 
   it("should throw error when creating user with invalid invite code", async () => {

@@ -53,13 +53,7 @@ export class AuthController {
    * Create a new user
    */
   async createUser(email: string, password: string, inviteCode: string): Promise<UserModel> {
-    // Validate invite code first
-    const isValidInvite = await this.inviteCtrl.validateInvite(email, inviteCode);
-    if (!isValidInvite) {
-      throw new Error("Invalid invite code for this email");
-    }
-
-    // Check if user already exists
+    // Check if user already exists first
     const existingUser = await this.db
       .select()
       .from(usersTable)
@@ -69,6 +63,12 @@ export class AuthController {
 
     if (existingUser) {
       throw new Error("User with this email already exists");
+    }
+
+    // Validate invite code
+    const isValidInvite = await this.inviteCtrl.validateInvite(email, inviteCode);
+    if (!isValidInvite) {
+      throw new Error("Invalid invite code for this email");
     }
 
     const passwordHash = AuthService.hashPassword(password);
