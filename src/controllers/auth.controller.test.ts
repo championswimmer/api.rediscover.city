@@ -124,4 +124,104 @@ describe("AuthController", () => {
     // Attempt to create user with valid code but wrong email
     await expect(authCtrl.createUser("wrong@email.com", testPassword, testInviteCode)).rejects.toThrow("Invalid invite code for this email");
   });
+
+  describe("authenticateRequest", () => {
+    let testUser: UserModel;
+
+    beforeEach(async () => {
+      // Create a test user for authentication tests
+      testUser = await authCtrl.createUser(testEmail, testPassword, testInviteCode);
+    });
+
+    it("should return error when no authorization header is provided", async () => {
+      const headers = {};
+      const mockJwt = { 
+        verify: () => Promise.resolve({}) 
+      };
+      const mockSet = { status: undefined };
+
+      const result = await authCtrl.authenticateRequest(headers, mockJwt, mockSet);
+
+      expect(result.error).toEqual({ message: "Authorization header required" });
+      expect(mockSet.status).toBe(401);
+    });
+
+    it("should return error when JWT verification fails", async () => {
+      const headers = { authorization: "Bearer invalid-token" };
+      const mockJwt = { 
+        verify: () => Promise.reject(new Error("Invalid token")) 
+      };
+      const mockSet = { status: undefined };
+
+      const result = await authCtrl.authenticateRequest(headers, mockJwt, mockSet);
+
+      expect(result.error).toEqual({ message: "Invalid or expired token" });
+      expect(mockSet.status).toBe(401);
+    });
+
+    it("should return error when JWT payload is invalid", async () => {
+      const headers = { authorization: "Bearer valid-token" };
+      const mockJwt = { 
+        verify: () => Promise.resolve({ invalidPayload: true }) 
+      };
+      const mockSet = { status: undefined };
+
+      const result = await authCtrl.authenticateRequest(headers, mockJwt, mockSet);
+
+      expect(result.error).toEqual({ message: "Invalid token" });
+      expect(mockSet.status).toBe(401);
+    });
+
+    it("should return error when user is not found", async () => {
+      const headers = { authorization: "Bearer valid-token" };
+      const mockJwt = { 
+        verify: () => Promise.resolve({ userId: "nonexistent-user-id" }) 
+      };
+      const mockSet = { status: undefined };
+
+      // Temporarily mock getUserById to return null for non-existent user
+      const originalGetUserById = authCtrl.getUserById;
+      authCtrl.getUserById = async (id: string) => {
+        if (id === "nonexistent-user-id") return null;
+        return originalGetUserById.call(authCtrl, id);
+      };
+
+      const result = await authCtrl.authenticateRequest(headers, mockJwt, mockSet);
+
+      // Restore original method
+      authCtrl.getUserById = originalGetUserById;
+
+      expect(result.error).toEqual({ message: "User not found" });
+      expect(mockSet.status).toBe(401);
+    });
+
+    it("should return user when authentication is successful", async () => {
+      const headers = { authorization: "Bearer valid-token" };
+      const mockJwt = { 
+        verify: () => Promise.resolve({ userId: testUser.id }) 
+      };
+      const mockSet = { status: undefined };
+
+      const result = await authCtrl.authenticateRequest(headers, mockJwt, mockSet);
+
+      expect(result.user).toBeDefined();
+      expect(result.user!.id).toBe(testUser.id);
+      expect(result.user!.email).toBe(testEmail);
+      expect(result.error).toBeUndefined();
+      expect(mockSet.status).toBeUndefined();
+    });
+
+    it("should handle authorization header without Bearer prefix", async () => {
+      const headers = { authorization: "valid-token" };
+      const mockJwt = { 
+        verify: () => Promise.resolve({ userId: testUser.id }) 
+      };
+      const mockSet = { status: undefined };
+
+      const result = await authCtrl.authenticateRequest(headers, mockJwt, mockSet);
+
+      expect(result.user).toBeDefined();
+      expect(result.user!.id).toBe(testUser.id);
+    });
+  });
 });

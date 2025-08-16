@@ -17,39 +17,12 @@ const route = new Elysia({ prefix: "/locate" })
   .decorate("ctrl", new GeocodingController(db))
   .decorate("authCtrl", new AuthController(db))
   .get("/", async ({ query, ctrl, headers, jwt, set, authCtrl }) => {
-    // Authentication check
-    const authorization = headers.authorization;
-    
-    if (!authorization) {
-      set.status = 401;
-      return { message: "Authorization header required" };
-    }
+    // Authentication using centralized method
+    const authResult = await authCtrl.authenticateRequest(headers, jwt, set);
+    if (authResult.error) return authResult.error;
 
-    const token = authorization.startsWith("Bearer ")
-      ? authorization.substring(7)
-      : authorization;
-
-    try {
-      const payload = await jwt.verify(token);
-      
-      if (!payload || typeof payload !== "object" || !payload.userId) {
-        set.status = 401;
-        return { message: "Invalid token" };
-      }
-
-      const user = await authCtrl.getUserById(String(payload.userId));
-      
-      if (!user) {
-        set.status = 401;
-        return { message: "User not found" };
-      }
-
-      // User is authenticated, proceed with the actual route logic
-      return await ctrl.reverseGeocode(query.lat, query.lng);
-    } catch (error) {
-      set.status = 401;
-      return { message: "Invalid or expired token" };
-    }
+    // User is authenticated, proceed with the actual route logic
+    return await ctrl.reverseGeocode(query.lat, query.lng);
   }, {
     query: ReverseGeocodeRequestSchema,
     response: {
