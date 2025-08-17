@@ -11,7 +11,7 @@ describe("WaitlistController", () => {
 
   beforeEach(async () => {
     waitlistCtrl = new WaitlistController(db);
-    
+
     // Clean up any existing test data
     try {
       await db.delete(waitlistTable).where(eq(waitlistTable.email, testEmail));
@@ -22,8 +22,8 @@ describe("WaitlistController", () => {
   });
 
   it("should add an email to the waitlist successfully", async () => {
-    const entry = await waitlistCtrl.addToWaitlist(testEmail);
-    
+    const { entry, created } = await waitlistCtrl.addToWaitlist(testEmail);
+
     expect(entry.email).toBe(testEmail);
     expect(entry.id).toBeDefined();
     expect(entry.createdAt).toBeDefined();
@@ -32,11 +32,11 @@ describe("WaitlistController", () => {
 
   it("should return existing entry when email already exists", async () => {
     // Add email first time
-    const firstEntry = await waitlistCtrl.addToWaitlist(testEmail);
-    
+    const { entry: firstEntry } = await waitlistCtrl.addToWaitlist(testEmail);
+
     // Add same email again
-    const secondEntry = await waitlistCtrl.addToWaitlist(testEmail);
-    
+    const { entry: secondEntry } = await waitlistCtrl.addToWaitlist(testEmail);
+
     expect(firstEntry.id).toBe(secondEntry.id);
     expect(firstEntry.email).toBe(secondEntry.email);
     expect(firstEntry.createdAt).toEqual(secondEntry.createdAt);
@@ -46,14 +46,14 @@ describe("WaitlistController", () => {
     // Should not exist initially
     let exists = await waitlistCtrl.isEmailInWaitlist(testEmail);
     expect(exists).toBe(false);
-    
+
     // Add to waitlist
     await waitlistCtrl.addToWaitlist(testEmail);
-    
+
     // Should exist now
     exists = await waitlistCtrl.isEmailInWaitlist(testEmail);
     expect(exists).toBe(true);
-    
+
     // Different email should not exist
     exists = await waitlistCtrl.isEmailInWaitlist(testEmail2);
     expect(exists).toBe(false);
@@ -63,10 +63,10 @@ describe("WaitlistController", () => {
     // Should return null for non-existent email
     let entry = await waitlistCtrl.getWaitlistEntry(testEmail);
     expect(entry).toBeNull();
-    
+
     // Add to waitlist
-    const addedEntry = await waitlistCtrl.addToWaitlist(testEmail);
-    
+    const { entry: addedEntry } = await waitlistCtrl.addToWaitlist(testEmail);
+
     // Should return the entry
     entry = await waitlistCtrl.getWaitlistEntry(testEmail);
     expect(entry).not.toBeNull();
@@ -75,13 +75,13 @@ describe("WaitlistController", () => {
   });
 
   it("should handle multiple different emails", async () => {
-    const entry1 = await waitlistCtrl.addToWaitlist(testEmail);
-    const entry2 = await waitlistCtrl.addToWaitlist(testEmail2);
-    
+    const { entry: entry1 } = await waitlistCtrl.addToWaitlist(testEmail);
+    const { entry: entry2 } = await waitlistCtrl.addToWaitlist(testEmail2);
+
     expect(entry1.email).toBe(testEmail);
     expect(entry2.email).toBe(testEmail2);
     expect(entry1.id).not.toBe(entry2.id);
-    
+
     // Both should exist
     expect(await waitlistCtrl.isEmailInWaitlist(testEmail)).toBe(true);
     expect(await waitlistCtrl.isEmailInWaitlist(testEmail2)).toBe(true);

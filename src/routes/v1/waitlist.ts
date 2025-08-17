@@ -17,9 +17,14 @@ const route = new Elysia({ prefix: "/waitlist" })
       max: 100, // 100 requests per minute per IP
       duration: 60000, // 60 seconds
       scoping: "global", // Rate limit per IP address
-      errorResponse: {
-        message: "Rate limit exceeded. You can only make 100 requests per minute. Please try again later.",
-      },
+      errorResponse: "Rate limit exceeded. You can only make 100 requests per minute. Please try again later.",
+      generator: (request: Request) => {
+        // Prefer X-Forwarded-For when behind a proxy
+        return request.headers.get('x-forwarded-for')?.split(',')[0]
+          || request.headers.get('cf-connecting-ip')
+          || request.headers.get('x-real-ip')
+          || 'unknown'
+      }
     })
   )
   .use(
@@ -27,10 +32,14 @@ const route = new Elysia({ prefix: "/waitlist" })
       max: 1, // 1 request per second
       duration: 1000, // 1 second
       scoping: "global", // Rate limit per IP address
-      errorResponse: {
-        message: "Rate limit exceeded. You can only make 1 request per second. Please try again later.",
-        retryAfter: 1,
-      },
+      errorResponse: "Rate limit exceeded. You can only make 1 request per second. Please try again later.",
+      generator: (request: Request) => {
+        // Prefer X-Forwarded-For when behind a proxy
+        return request.headers.get('x-forwarded-for')?.split(',')[0]
+          || request.headers.get('cf-connecting-ip')
+          || request.headers.get('x-real-ip')
+          || 'unknown'
+      }
     })
   )
   .decorate("waitlistCtrl", new WaitlistController(db))
