@@ -4,7 +4,6 @@ import { ReverseGeocodeRequestSchema, ReverseGeocodeResponseSchema } from "../..
 import { db } from "../../db/init";
 import { GeocodingController } from "../../controllers/geocoding.controller";
 import { AuthController } from "../../controllers/auth.controller";
-import { cityFilterPlugin } from "../../plugins/cityfilter";
 import { config } from "../../../config";
 
 /**
@@ -17,13 +16,28 @@ const route = new Elysia({ prefix: "/locate" })
   }))
   .decorate("ctrl", new GeocodingController(db))
   .decorate("authCtrl", new AuthController(db))
-  .use(cityFilterPlugin())
   .get("/", async ({ query, ctrl, headers, jwt, set, authCtrl }) => {
     // Authentication using centralized method
     const authResult = await authCtrl.authenticateRequest(headers, jwt, set);
     if (authResult.error) return authResult.error;
 
-    // User is authenticated, proceed with the actual route logic
+    // Parse coordinates for city validation
+    const lat = parseFloat(query.lat);
+    const lng = parseFloat(query.lng);
+    
+    // Validate coordinates are within enabled cities
+    const validationResult = ctrl.validateCoordinatesEnabled(lat, lng);
+    if (!validationResult.isEnabled) {
+      set.status = 403;
+      return {
+        error: "Service not available",
+        message: `The requested coordinates (${lat}, ${lng}) are not within our service area. We currently provide services for the following cities:`,
+        availableCities: validationResult.enabledCities,
+        code: "COORDINATES_NOT_ENABLED"
+      };
+    }
+
+    // User is authenticated and coordinates are enabled, proceed with the actual route logic
     return await ctrl.reverseGeocode(query.lat, query.lng);
   }, {
     query: ReverseGeocodeRequestSchema,

@@ -5,7 +5,6 @@ import { db } from "../../db/init";
 import { GeocodingController } from "../../controllers/geocoding.controller";
 import { LocationInfoRequestSchema, LocationInfoResponseSchema } from "../../services/locationinfo";
 import { AuthController } from "../../controllers/auth.controller";
-import { cityFilterPlugin } from "../../plugins/cityfilter";
 import { config } from "../../../config";
 
 /**
@@ -19,7 +18,6 @@ const route = new Elysia({ prefix: "/location" })
   .decorate("locCtrl", new LocationController(db))
   .decorate("geoCtrl", new GeocodingController(db))
   .decorate("authCtrl", new AuthController(db))
-  .use(cityFilterPlugin())
   .get("/info", async ({ query, locCtrl, geoCtrl, set, headers, jwt, authCtrl }) => {
     // Authentication using centralized method
     const authResult = await authCtrl.authenticateRequest(headers, jwt, set);
@@ -49,6 +47,19 @@ const route = new Elysia({ prefix: "/location" })
           message: "Bad request: 'lat' and 'lng' must be valid numeric coordinates.",
         };
       }
+      
+      // Validate coordinates are within enabled cities
+      const validationResult = geoCtrl.validateCoordinatesEnabled(lat, lng);
+      if (!validationResult.isEnabled) {
+        set.status = 403;
+        return {
+          error: "Service not available",
+          message: `The requested coordinates (${lat}, ${lng}) are not within our service area. We currently provide services for the following cities:`,
+          availableCities: validationResult.enabledCities,
+          code: "COORDINATES_NOT_ENABLED"
+        };
+      }
+      
       const location = await geoCtrl.reverseGeocode(query.lat, query.lng);
       const locationInfo = await locCtrl.getLocationInfo(location);
       return locationInfo;
