@@ -4,6 +4,7 @@ import { ReverseGeocodeRequestSchema, ReverseGeocodeResponseSchema } from "../..
 import { db } from "../../db/init";
 import { GeocodingController } from "../../controllers/geocoding.controller";
 import { AuthController } from "../../controllers/auth.controller";
+import { cityFilterPlugin } from "../../plugins/cityfilter";
 import { config } from "../../../config";
 
 /**
@@ -16,6 +17,7 @@ const route = new Elysia({ prefix: "/locate" })
   }))
   .decorate("ctrl", new GeocodingController(db))
   .decorate("authCtrl", new AuthController(db))
+  .use(cityFilterPlugin())
   .get("/", async ({ query, ctrl, headers, jwt, set, authCtrl }) => {
     // Authentication using centralized method
     const authResult = await authCtrl.authenticateRequest(headers, jwt, set);
@@ -29,6 +31,15 @@ const route = new Elysia({ prefix: "/locate" })
       200: ReverseGeocodeResponseSchema,
       401: t.Object({
         message: t.String(),
+      }),
+      403: t.Object({
+        error: t.String(),
+        message: t.String(),
+        availableCities: t.Array(t.Object({
+          city: t.String(),
+          country: t.String(),
+        })),
+        code: t.String(),
       }),
     },
     description: "Reverse geocode latitude and longitude to get location details. Requires JWT authentication.",

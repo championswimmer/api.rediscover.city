@@ -5,6 +5,7 @@ import { db } from "../../db/init";
 import { GeocodingController } from "../../controllers/geocoding.controller";
 import { LocationInfoRequestSchema, LocationInfoResponseSchema } from "../../services/locationinfo";
 import { AuthController } from "../../controllers/auth.controller";
+import { cityFilterPlugin } from "../../plugins/cityfilter";
 import { config } from "../../../config";
 
 /**
@@ -18,6 +19,7 @@ const route = new Elysia({ prefix: "/location" })
   .decorate("locCtrl", new LocationController(db))
   .decorate("geoCtrl", new GeocodingController(db))
   .decorate("authCtrl", new AuthController(db))
+  .use(cityFilterPlugin())
   .get("/info", async ({ query, locCtrl, geoCtrl, set, headers, jwt, authCtrl }) => {
     // Authentication using centralized method
     const authResult = await authCtrl.authenticateRequest(headers, jwt, set);
@@ -67,6 +69,15 @@ const route = new Elysia({ prefix: "/location" })
       }),
       401: t.Object({
         message: t.String(),
+      }),
+      403: t.Object({
+        error: t.String(),
+        message: t.String(),
+        availableCities: t.Array(t.Object({
+          city: t.String(),
+          country: t.String(),
+        })),
+        code: t.String(),
       }),
       404: t.Object({
         message: t.String(),
