@@ -74,5 +74,16 @@ export const config = {
     emoji: true,
     level: <Level>(process.env.NODE_ENV === "production" ? 'warn' : 'debug'),
   },
+  cors: {
+    origin: [
+      "https://rediscover.city",
+      "https://app.rediscover.city", 
+      "https://rediscover-city.lovable.app",
+      "https://rediscover-city.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+  },
   aiModel: process.env.AI_MODEL || "google/gemini-2.5-flash-lite"
 };
