@@ -36,7 +36,6 @@ const route = new Elysia({ prefix: "/waitlist" })
   )
   .decorate("waitlistCtrl", new WaitlistController(db))
   .post("/", async ({ body, waitlistCtrl, set }) => {
-    // Additional email validation
     if (!isValidEmail(body.email)) {
       set.status = 400;
       return {
@@ -45,15 +44,12 @@ const route = new Elysia({ prefix: "/waitlist" })
     }
 
     try {
-      const entry = await waitlistCtrl.addToWaitlist(body.email);
-      
-      // Check if this was a new entry or existing one
-      const isNew = entry.createdAt.getTime() > Date.now() - 5000; // Within last 5 seconds
-      const alreadySubscribed = !isNew;
+      const { entry, created } = await waitlistCtrl.addToWaitlist(body.email);
+      const alreadySubscribed = !created;
 
       return {
-        message: alreadySubscribed 
-          ? "Email is already subscribed to the waitlist." 
+        message: alreadySubscribed
+          ? "Email is already subscribed to the waitlist."
           : "Successfully added to waitlist!",
         email: body.email,
         alreadySubscribed,
