@@ -27,6 +27,7 @@
     "dotenv": "^17.2.0",
     "drizzle-orm": "^0.44.3",
     "elysia": "latest",
+    "elysia-rate-limit": "^4.4.0",
     "ngeohash": "^0.6.3"
   },
   "devDependencies": {

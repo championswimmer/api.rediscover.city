@@ -3,6 +3,7 @@ import { config } from "../config";
 import locate from "./routes/v1/locate";
 import location from "./routes/v1/location";
 import auth from "./routes/v1/auth";
+import waitlist from "./routes/v1/waitlist";
 import { serverTiming } from "@elysiajs/server-timing";
 import { swagger } from '@elysiajs/swagger'
 import { db as _db } from "./db/init";
@@ -18,6 +19,7 @@ setupLogger({
 const app = new Elysia()
   .use(serverTiming())
   .use(swagger(config.swaggerConfig))
+  .use(waitlist)
   .group("/v1", (app) => app
     .use(auth)
     .use(locate)

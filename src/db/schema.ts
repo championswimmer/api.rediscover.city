@@ -39,9 +39,17 @@ export const invitesTable = pgTable("invites", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const waitlistTable = pgTable("waitlist", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export type GeohashModel = typeof geohashTable.$inferSelect;
 export type LocationInfoModel = typeof locationInfoTable.$inferSelect;
 export type UserModel = typeof usersTable.$inferSelect;
 export type NewUserModel = typeof usersTable.$inferInsert;
 export type InviteModel = typeof invitesTable.$inferSelect;
 export type NewInviteModel = typeof invitesTable.$inferInsert;
+export type WaitlistModel = typeof waitlistTable.$inferSelect;
+export type NewWaitlistModel = typeof waitlistTable.$inferInsert;

@@ -52,6 +52,10 @@ export const config = {
         {
           name: "location",
           description: "Location Information API"
+        },
+        {
+          name: "waitlist",
+          description: "Waitlist Subscription API"
         }
       ],
       components: {
