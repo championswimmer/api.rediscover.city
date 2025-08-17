@@ -8,5 +8,12 @@
   { "city": "Amsterdam", "country": "Netherlands", "minLat": 52.2781742, "minLon": 4.7287776, "maxLat": 52.4310638, "maxLon": 5.0791622 },
   { "city": "Berlin", "country": "Germany", "minLat": 52.3382448, "minLon": 13.088345, "maxLat": 52.6755087, "maxLon": 13.7611609 },
   { "city": "New Delhi", "country": "India", "minLat": 28.4812209, "minLon": 77.0503708, "maxLat": 28.6456842, "maxLon": 77.2551392 },
-  { "city": "Tokyo", "country": "Japan", "minLat": 35.4816556, "minLon": 139.5629064, "maxLat": 35.8174827, "maxLon": 139.9189004 }
+  { "city": "Tokyo", "country": "Japan", "minLat": 35.4816556, "minLon": 139.5629064, "maxLat": 35.8174827, "maxLon": 139.9189004 },
+  { "city": "Mumbai", "country": "India", "minLat": 18.8926, "minLon": 72.7758, "maxLat": 19.2761, "maxLon": 73.0365 },
+  { "city": "Bengaluru", "country": "India", "minLat": 12.7343, "minLon": 77.4071, "maxLat": 13.1394, "maxLon": 77.7118 },
+  { "city": "San Francisco", "country": "United States", "minLat": 37.6398, "minLon": -122.5138, "maxLat": 37.8271, "maxLon": -122.3549 },
+  { "city": "Toronto", "country": "Canada", "minLat": 43.5809, "minLon": -79.6390, "maxLat": 43.8554, "maxLon": -79.1168 },
+  { "city": "Montreal", "country": "Canada", "minLat": 45.4098, "minLon": -73.9731, "maxLat": 45.7041, "maxLon": -73.4764 },
+  { "city": "Frankfurt", "country": "Germany", "minLat": 50.0157, "minLon": 8.5518, "maxLat": 50.2269, "maxLon": 8.8007 },
+  { "city": "Barcelona", "country": "Spain", "minLat": 41.3200, "minLon": 2.0695, "maxLat": 41.4695, "maxLon": 2.2280 }
 ]
