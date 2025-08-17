@@ -6,7 +6,7 @@
     "pretest": "NODE_ENV=test bunx drizzle-kit push --force",
     "test": "NODE_ENV=test bun test src/**/*.test.ts",
     "test:watch": "NODE_ENV=test bun test --watch src/**/*.test.ts",
-    "dev": "bun run --watch src/index.ts",
+    "dev": "NODE_ENV=development bun run --watch src/index.ts",
     "start": "bun run dist/index.js",
     "create_invite": "bun run src/scripts/create_invite.ts"
   },
