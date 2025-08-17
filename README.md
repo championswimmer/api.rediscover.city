@@ -36,9 +36,9 @@ To get started with development, follow these steps:
     The API will be available at `http://localhost:3000`.
 
 3.  **Running Tests**:
-    This project supports testing with SQLite for faster, isolated tests. The test environment automatically uses SQLite instead of PostgreSQL.
-    
-    To run the test suite once:
+   This project supports testing with pglite for faster, isolated tests. The test environment automatically uses pglite (in-memory PostgreSQL) instead of PostgreSQL.
+   
+   To run the test suite once:
     ```bash
     bun test
     ```
@@ -53,10 +53,10 @@ To get started with development, follow these steps:
 
 ## Database Configuration
 
-The application now exclusively uses PostgreSQL for both production and testing:
+The application uses PostgreSQL for production and pglite (in-memory PostgreSQL) for testing:
 
 - **Production**: Uses PostgreSQL with connection string from `DATABASE_URL`
-- **Testing**: Uses PostgreSQL with connection string from `DATABASE_URL`
+- **Testing**: Uses pglite (in-memory PostgreSQL) for isolated, fast tests
 
 Environment configuration:
 - `.env` - Default environment (PostgreSQL)
@@ -75,7 +75,7 @@ This project relies on a set of modern and efficient libraries to deliver its fu
 | Library                                | Purpose                                                                                             |
 | -------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | **[ElysiaJS](https://elysiajs.com/)**      | A fast, ergonomic, and type-safe web framework for Bun.                                             |
-| **[Drizzle ORM](https://orm.drizzle.team/)** | A TypeScript ORM for building and querying SQL databases. Used here with PostgreSQL (production) and SQLite (testing). |
+| **[Drizzle ORM](https://orm.drizzle.team/)** | A TypeScript ORM for building and querying SQL databases. Used here with PostgreSQL (production) and pglite (testing). |
 | **[AI SDK](https://sdk.vercel.ai/)**       | A library for integrating AI models (like Google's Gemini and Perplexity) to generate content.      |
 | **[Google Maps Services]**             | Node.js client for Google Maps services, used for geocoding and places data.                        |
 | **[TypeBox](https://github.com/sinclairzx81/typebox)** | A library for creating JSON schemas and validating data, ensuring type safety for API requests. |

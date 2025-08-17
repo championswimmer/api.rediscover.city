@@ -19,23 +19,6 @@ services:
       timeout: 10s
       retries: 3
 
-  postgres-test:
-    image: postgres:16
-    container_name: rediscover_postgres_test
-    environment:
-      POSTGRES_DB: rediscover_test
-      POSTGRES_USER: rediscover
-      POSTGRES_PASSWORD: rediscover
-    ports:
-      - "5433:5432"
-    volumes:
-      - postgres_test_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
   api:
     build: .
     container_name: rediscover_api
@@ -46,4 +29,3 @@ services:
 
 volumes:
   postgres_data:
-  postgres_test_data:
