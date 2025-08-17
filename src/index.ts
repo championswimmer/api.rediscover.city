@@ -6,6 +6,7 @@ import auth from "./routes/v1/auth";
 import waitlist from "./routes/v1/waitlist";
 import { serverTiming } from "@elysiajs/server-timing";
 import { swagger } from '@elysiajs/swagger'
+import { cors } from '@elysiajs/cors'
 import { db as _db } from "./db/init";
 import { setup as setupLogger } from "adze"; 
 
@@ -17,6 +18,7 @@ setupLogger({
 });
 
 const app = new Elysia()
+  .use(cors(config.cors))
   .use(serverTiming())
   .use(swagger(config.swaggerConfig))
   .use(waitlist)
