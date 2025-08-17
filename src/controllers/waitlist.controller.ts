@@ -9,8 +9,7 @@ export class WaitlistController {
    * Add an email to the waitlist
    * Returns the existing record if email already exists (no error)
    */
-  async addToWaitlist(email: string): Promise<WaitlistModel> {
-    // Check if email already exists
+  async addToWaitlist(email: string): Promise<{ entry: WaitlistModel; created: boolean }> {
     const existingEntry = await this.db
       .select()
       .from(waitlistTable)
@@ -19,21 +18,17 @@ export class WaitlistController {
       .then(entries => entries[0] || null);
 
     if (existingEntry) {
-      // Return existing entry without error
-      return existingEntry;
+      return { entry: existingEntry, created: false };
     }
 
-    // Create new waitlist entry
-    const newEntry: NewWaitlistModel = {
-      email,
-    };
+    const newEntry: NewWaitlistModel = { email };
 
     const [createdEntry] = await this.db
       .insert(waitlistTable)
       .values(newEntry)
       .returning();
 
-    return createdEntry;
+    return { entry: createdEntry, created: true };
   }
 
   /**
