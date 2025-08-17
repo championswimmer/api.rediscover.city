@@ -24,7 +24,13 @@ const route = new Elysia({ prefix: "/locate" })
     // Parse coordinates for city validation
     const lat = parseFloat(query.lat);
     const lng = parseFloat(query.lng);
-    
+    if (isNaN(lat) || isNaN(lng)) {
+      set.status = 400;
+      return {
+        message: "Bad request: 'lat' and 'lng' must be valid numeric coordinates.",
+      };
+    }
+
     // Validate coordinates are within enabled cities
     const validationResult = ctrl.validateCoordinatesEnabled(lat, lng);
     if (!validationResult.isEnabled) {
