@@ -32,18 +32,3 @@ export type WaitlistRequest = Static<typeof WaitlistRequestSchema>;
 export type WaitlistResponse = Static<typeof WaitlistResponseSchema>;
 export type RateLimitError = Static<typeof RateLimitErrorSchema>;
 
-/**
- * Validate email format using a more strict regex
- */
-export function isValidEmail(email: string): boolean {
-  // Check basic format first
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
-  
-  // Additional checks
-  return emailRegex.test(email) 
-    && !email.startsWith('.') 
-    && !email.endsWith('.') 
-    && !email.includes('..')
-    && !email.includes(' ')
-    && email.split('@')[1]?.includes('.'); // Must have a TLD
-}

@@ -5,8 +5,7 @@ import { db } from "../../db/init";
 import { 
   WaitlistRequestSchema, 
   WaitlistResponseSchema, 
-  RateLimitErrorSchema,
-  isValidEmail 
+  RateLimitErrorSchema
 } from "../../services/waitlist";
 
 /**
@@ -36,13 +35,6 @@ const route = new Elysia({ prefix: "/waitlist" })
   )
   .decorate("waitlistCtrl", new WaitlistController(db))
   .post("/", async ({ body, waitlistCtrl, set }) => {
-    if (!isValidEmail(body.email)) {
-      set.status = 400;
-      return {
-        message: "Invalid email format. Please provide a valid email address.",
-      };
-    }
-
     try {
       const { entry, created } = await waitlistCtrl.addToWaitlist(body.email);
       const alreadySubscribed = !created;
@@ -64,9 +56,6 @@ const route = new Elysia({ prefix: "/waitlist" })
     body: WaitlistRequestSchema,
     response: {
       200: WaitlistResponseSchema,
-      400: t.Object({
-        message: t.String(),
-      }),
       429: RateLimitErrorSchema,
       500: t.Object({
         message: t.String(),

@@ -1,45 +1,31 @@
 import { describe, it, expect } from "bun:test";
-import { isValidEmail } from "./waitlist";
+import { WaitlistRequestSchema, WaitlistResponseSchema } from "./waitlist";
 
 describe("Waitlist Service", () => {
-  describe("isValidEmail", () => {
-    it("should validate correct email formats", () => {
-      const validEmails = [
-        "user@example.com",
-        "test.email@domain.co.uk",
-        "user+tag@example.org",
-        "firstname.lastname@company.com",
-        "user123@test123.com",
-        "simple@email.io",
-      ];
-
-      validEmails.forEach(email => {
-        expect(isValidEmail(email)).toBe(true);
-      });
+  describe("WaitlistRequestSchema", () => {
+    it("should define email field with email format", () => {
+      expect(WaitlistRequestSchema.properties.email.format).toBe("email");
+      expect(WaitlistRequestSchema.properties.email.type).toBe("string");
     });
 
-    it("should reject invalid email formats", () => {
-      const invalidEmails = [
-        "invalid-email",
-        "@example.com",
-        "user@",
-        "user@.com",
-        "user..double.dot@example.com",
-        "user @example.com", // space
-        "user@example", // no TLD
-        "",
-        "user@example.",
-        ".user@example.com",
-      ];
+    it("should have proper schema structure for requests", () => {
+      expect(WaitlistRequestSchema.type).toBe("object");
+      expect(WaitlistRequestSchema.properties).toBeDefined();
+      expect(WaitlistRequestSchema.properties.email).toBeDefined();
+    });
+  });
 
-      invalidEmails.forEach(email => {
-        expect(isValidEmail(email)).toBe(false);
-      });
+  describe("WaitlistResponseSchema", () => {
+    it("should have proper response schema structure", () => {
+      expect(WaitlistResponseSchema.type).toBe("object");
+      expect(WaitlistResponseSchema.properties.message).toBeDefined();
+      expect(WaitlistResponseSchema.properties.email).toBeDefined();
+      expect(WaitlistResponseSchema.properties.alreadySubscribed).toBeDefined();
     });
 
-    it("should handle edge cases", () => {
-      expect(isValidEmail("a@b.c")).toBe(true); // minimal valid email
-      expect(isValidEmail("very.long.email.address@very.long.domain.name.com")).toBe(true);
+    it("should define email field with email format in response", () => {
+      expect(WaitlistResponseSchema.properties.email.format).toBe("email");
+      expect(WaitlistResponseSchema.properties.email.type).toBe("string");
     });
   });
 });
