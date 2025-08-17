@@ -40,6 +40,9 @@ describe("GeocodingController", () => {
       expect(cityNames).toContain("New York");
       expect(cityNames).toContain("London");
       expect(cityNames).toContain("New Delhi");
+      expect(cityNames).toContain("Mumbai");
+      expect(cityNames).toContain("Toronto");
+      expect(cityNames).toContain("Barcelona");
     });
 
     it("should reject Antarctica coordinates as disabled", () => {

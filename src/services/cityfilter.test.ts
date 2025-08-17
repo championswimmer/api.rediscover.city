@@ -27,6 +27,30 @@ describe("cityfilter", () => {
     expect(result.enabledCities).toBeInstanceOf(Array);
   });
 
+  it("should return true for coordinates within Mumbai", () => {
+    // Mumbai coordinates: 19.0760, 72.8777
+    const result = checkCityEnabled(19.0760, 72.8777);
+    
+    expect(result.isEnabled).toBe(true);
+    expect(result.enabledCities).toBeInstanceOf(Array);
+  });
+
+  it("should return true for coordinates within Toronto", () => {
+    // Toronto coordinates: 43.6532, -79.3832
+    const result = checkCityEnabled(43.6532, -79.3832);
+    
+    expect(result.isEnabled).toBe(true);
+    expect(result.enabledCities).toBeInstanceOf(Array);
+  });
+
+  it("should return true for coordinates within Barcelona", () => {
+    // Barcelona coordinates: 41.3851, 2.1734
+    const result = checkCityEnabled(41.3851, 2.1734);
+    
+    expect(result.isEnabled).toBe(true);
+    expect(result.enabledCities).toBeInstanceOf(Array);
+  });
+
   it("should return false for coordinates outside all enabled cities", () => {
     // Middle of ocean coordinates: 0, 0
     const result = checkCityEnabled(0, 0);
@@ -57,6 +81,13 @@ describe("cityfilter", () => {
     expect(cityNames).toContain("Paris");
     expect(cityNames).toContain("New Delhi");
     expect(cityNames).toContain("Tokyo");
+    expect(cityNames).toContain("Mumbai");
+    expect(cityNames).toContain("Bengaluru");
+    expect(cityNames).toContain("San Francisco");
+    expect(cityNames).toContain("Toronto");
+    expect(cityNames).toContain("Montreal");
+    expect(cityNames).toContain("Frankfurt");
+    expect(cityNames).toContain("Barcelona");
   });
 
   it("should have proper structure for enabled cities", () => {
