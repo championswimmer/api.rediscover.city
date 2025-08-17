@@ -3,6 +3,7 @@ import { geohashTable } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { config } from "../../config";
 import { reverseGeocode, ReverseGeocodeResponse } from "../services/geocoding";
+import { checkCityEnabled, CityFilterResult } from "../services/cityfilter";
 import ngeohash from "ngeohash";
 import adze from "adze";
 
@@ -53,5 +54,15 @@ export class GeocodingController {
     }
     adze.warn("Geohash record not found", { geohash });
     return null;
+  }
+
+  /**
+   * Validates if the given coordinates are within any enabled city
+   */
+  validateCoordinatesEnabled(lat: number, lng: number): CityFilterResult {
+    adze.info("Validating coordinates against enabled cities", { lat, lng });
+    const result = checkCityEnabled(lat, lng);
+    adze.info("City validation result", { lat, lng, isEnabled: result.isEnabled });
+    return result;
   }
 }

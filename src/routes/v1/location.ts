@@ -47,6 +47,19 @@ const route = new Elysia({ prefix: "/location" })
           message: "Bad request: 'lat' and 'lng' must be valid numeric coordinates.",
         };
       }
+      
+      // Validate coordinates are within enabled cities
+      const validationResult = geoCtrl.validateCoordinatesEnabled(lat, lng);
+      if (!validationResult.isEnabled) {
+        set.status = 404;
+        return {
+          error: "Service not available",
+          message: `The requested coordinates (${lat}, ${lng}) are not within our service area. We currently provide services for the following cities:`,
+          availableCities: validationResult.enabledCities,
+          code: "COORDINATES_NOT_ENABLED"
+        };
+      }
+      
       const location = await geoCtrl.reverseGeocode(query.lat, query.lng);
       const locationInfo = await locCtrl.getLocationInfo(location);
       return locationInfo;
@@ -69,7 +82,13 @@ const route = new Elysia({ prefix: "/location" })
         message: t.String(),
       }),
       404: t.Object({
+        error: t.Optional(t.String()),
         message: t.String(),
+        availableCities: t.Optional(t.Array(t.Object({
+          city: t.String(),
+          country: t.String(),
+        }))),
+        code: t.Optional(t.String()),
       }),
     },
     description: "Get detailed information about location. This uses an AI model to generate information. Requires JWT authentication.",

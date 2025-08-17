@@ -21,7 +21,29 @@ const route = new Elysia({ prefix: "/locate" })
     const authResult = await authCtrl.authenticateRequest(headers, jwt, set);
     if (authResult.error) return authResult.error;
 
-    // User is authenticated, proceed with the actual route logic
+    // Parse coordinates for city validation
+    const lat = parseFloat(query.lat);
+    const lng = parseFloat(query.lng);
+    if (isNaN(lat) || isNaN(lng)) {
+      set.status = 400;
+      return {
+        message: "Bad request: 'lat' and 'lng' must be valid numeric coordinates.",
+      };
+    }
+
+    // Validate coordinates are within enabled cities
+    const validationResult = ctrl.validateCoordinatesEnabled(lat, lng);
+    if (!validationResult.isEnabled) {
+      set.status = 404;
+      return {
+        error: "Service not available",
+        message: `The requested coordinates (${lat}, ${lng}) are not within our service area. We currently provide services for the following cities:`,
+        availableCities: validationResult.enabledCities,
+        code: "COORDINATES_NOT_ENABLED"
+      };
+    }
+
+    // User is authenticated and coordinates are enabled, proceed with the actual route logic
     return await ctrl.reverseGeocode(query.lat, query.lng);
   }, {
     query: ReverseGeocodeRequestSchema,
@@ -29,6 +51,15 @@ const route = new Elysia({ prefix: "/locate" })
       200: ReverseGeocodeResponseSchema,
       401: t.Object({
         message: t.String(),
+      }),
+      404: t.Object({
+        error: t.String(),
+        message: t.String(),
+        availableCities: t.Array(t.Object({
+          city: t.String(),
+          country: t.String(),
+        })),
+        code: t.String(),
       }),
     },
     description: "Reverse geocode latitude and longitude to get location details. Requires JWT authentication.",
