@@ -51,7 +51,7 @@ const route = new Elysia({ prefix: "/location" })
       // Validate coordinates are within enabled cities
       const validationResult = geoCtrl.validateCoordinatesEnabled(lat, lng);
       if (!validationResult.isEnabled) {
-        set.status = 404;
+        set.status = 403;
         return {
           error: "Service not available",
           message: `The requested coordinates (${lat}, ${lng}) are not within our service area. We currently provide services for the following cities:`,
@@ -81,7 +81,7 @@ const route = new Elysia({ prefix: "/location" })
       401: t.Object({
         message: t.String(),
       }),
-      404: t.Object({
+      403: t.Object({
         error: t.Optional(t.String()),
         message: t.String(),
         availableCities: t.Optional(t.Array(t.Object({
@@ -89,6 +89,9 @@ const route = new Elysia({ prefix: "/location" })
           country: t.String(),
         }))),
         code: t.Optional(t.String()),
+      }),
+      404: t.Object({
+        message: t.String(),
       }),
     },
     description: "Get detailed information about location. This uses an AI model to generate information. Requires JWT authentication.",

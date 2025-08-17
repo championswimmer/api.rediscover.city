@@ -13,7 +13,7 @@ export const ReverseGeocodeRequestSchema = t.Object({
 export type ReverseGeocodeRequest = Static<typeof ReverseGeocodeRequestSchema>;
 
 export const ReverseGeocodeResponseSchema = t.Object({
-  geohash: t.String({ examples: ["dr5reg", "gcpuv"] }),
+  geohash: t.String({ examples: ["dr5regw", "gcpuv7d"] }),
   country: t.String({ examples: ["United States", "United Kingdom"] }),
   city: t.String({ examples: ["New York", "London"] }),
   locality: t.Optional(t.String({ examples: ["Manhattan", "Central London"] })),

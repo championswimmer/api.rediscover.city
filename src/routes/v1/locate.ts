@@ -34,7 +34,7 @@ const route = new Elysia({ prefix: "/locate" })
     // Validate coordinates are within enabled cities
     const validationResult = ctrl.validateCoordinatesEnabled(lat, lng);
     if (!validationResult.isEnabled) {
-      set.status = 404;
+      set.status = 403;
       return {
         error: "Service not available",
         message: `The requested coordinates (${lat}, ${lng}) are not within our service area. We currently provide services for the following cities:`,
@@ -52,7 +52,7 @@ const route = new Elysia({ prefix: "/locate" })
       401: t.Object({
         message: t.String(),
       }),
-      404: t.Object({
+      403: t.Object({
         error: t.String(),
         message: t.String(),
         availableCities: t.Array(t.Object({

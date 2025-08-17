@@ -12,9 +12,9 @@ import adze from "adze";
 import { createOpenAI } from "@ai-sdk/openai";
 
 export const LocationInfoRequestSchema = t.Object({
-  geohash: t.Optional(t.String()),
-  lat: t.Optional(t.String()),
-  lng: t.Optional(t.String()),
+  geohash: t.Optional(t.String({ examples: ["dr5regw", "gcpuv7d"] })),
+  lat: t.Optional(t.String({ examples: ["40.7128", "51.5074"] })), // NYC, London
+  lng: t.Optional(t.String({ examples: ["-74.0060", "-0.1278"] })), // NYC, London
 });
 
 export type LocationInfoRequest = Static<typeof LocationInfoRequestSchema>;
