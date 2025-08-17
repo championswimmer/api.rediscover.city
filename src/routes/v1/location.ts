@@ -33,7 +33,7 @@ const route = new Elysia({ prefix: "/location" })
             `Did you first call the /v1/locate endpoint with lat/lng to get the location?`,
         };
       }
-      const locationInfo = await locCtrl.getLocationInfo(location);
+      const locationInfo = await locCtrl.getLocationInfo(location, query.refresh);
       return locationInfo;
     }
     
@@ -61,7 +61,7 @@ const route = new Elysia({ prefix: "/location" })
       }
       
       const location = await geoCtrl.reverseGeocode(query.lat, query.lng);
-      const locationInfo = await locCtrl.getLocationInfo(location);
+      const locationInfo = await locCtrl.getLocationInfo(location, query.refresh);
       return locationInfo;
     }
     
