@@ -45,6 +45,7 @@ const models = {
   openai: {
     gpt_5: openai.responses("gpt-5"),
     gpt_5_mini: openai.responses("gpt-5-mini"),
+    gpt_5_nano: openai.responses("gpt-5-nano"),
   }
 }
 
@@ -64,6 +65,8 @@ const getModel = (): LanguageModelV2 => {
       return models.openai.gpt_5;
     case "openai/gpt-5-mini":
       return models.openai.gpt_5_mini;
+    case "openai/gpt-5-nano":
+      return models.openai.gpt_5_nano;
     default:
       throw new Error(`Unknown model: ${config.aiModel}`);
   }
