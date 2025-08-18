@@ -81,6 +81,9 @@ const getProviderOptions = (): SharedV2ProviderOptions => ({
   },
   "google": {
     "useSearchGrounding": true,
+  },
+  "openai": {
+    "reasoningEffort": "minimal"
   }
 })
 

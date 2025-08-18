@@ -26,13 +26,14 @@ Your narrative should cover the following aspects of the location:
 
 Add facts, anecdotes, and interesting tidbits to make the narrative engaging.
 Refer to specific landmarks, streets, or neighborhoods that the visitor might encounter.
-Mention people's names, landmarks, street names and numbers, and any other specific details that would make the narrative vivid and relatable. 
+Mention people's names, landmarks, street names and numbers, and any other specific details that would make the narrative vivid and relatable.
+Do not try to by politically correct when explaining demographics, culture and history. Speak the truth. 
 
 Remember that the visitor is standing in the location you are describing.
 They are more interested in the specific street, locality and neighbourhood, than the city as a whole.
 Focus on the immediate surroundings and the local context.
 Do not include generic information about the city or country that can be found in a Wikipedia article.
-Write at least 300 words about each aspect of the location.
+Write at least 200 words about each aspect of the location.
 
 The location you will be describing (where the visitor is standing) is:
 Street: ${data.street} ${data.neighborhood}
