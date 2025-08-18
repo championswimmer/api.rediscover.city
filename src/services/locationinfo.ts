@@ -118,7 +118,7 @@ export async function getLocationInfo(location: ReverseGeocodeResponse): Promise
     }),
   })
 
-  adze.info("response metadata", JSON.stringify(response.providerMetadata, null, 2));
+  adze.debug("response metadata", JSON.stringify(response.providerMetadata, null, 2));
 
   return response.object;
 }

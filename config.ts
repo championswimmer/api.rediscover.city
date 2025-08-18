@@ -20,6 +20,13 @@ if (process.env.NODE_ENV === "development") {
   dotenv.config({ path: ".env.local", override: true });
 }
 
+let apiBaseUrl = process.env.API_BASE_URL || "http://localhost:3000";
+
+if (process.env.RAILWAY_PUBLIC_DOMAIN) {
+  adze.info("Using Railway public domain for API base URL", process.env.RAILWAY_PUBLIC_DOMAIN);
+  apiBaseUrl = `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`;
+}
+
 export const config = {
   db: {
     url: process.env.DATABASE_URL!,
@@ -35,6 +42,11 @@ export const config = {
   },
   swaggerConfig: <ElysiaSwaggerConfig>{
     documentation: {
+      servers: [
+        {
+          url: apiBaseUrl,
+        }
+      ],
       info: {
         title: "Rediscover City API",
         description: "API for the Rediscover City project",
@@ -76,12 +88,12 @@ export const config = {
   geohashPrecision: Number(process.env.GEOHASH_PRECISION) || 7,
   logs: {
     emoji: true,
-    level: <Level>(process.env.NODE_ENV === "production" ? 'warn' : 'debug'),
+    level: <Level>(process.env.NODE_ENV === "production" ? 'log' : 'verbose'),
   },
   cors: {
     origin: [
       "https://rediscover.city",
-      "https://app.rediscover.city", 
+      "https://app.rediscover.city",
       "https://rediscover-city.lovable.app",
       "https://rediscover-city.vercel.app"
     ],

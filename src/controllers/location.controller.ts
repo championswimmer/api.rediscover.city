@@ -33,7 +33,7 @@ export class LocationController {
         geohash: location.geohash,
         ...response,
       });
-      adze.info("Location info record refreshed", {
+      adze.debug("Location info record refreshed", {
         geohash: location.geohash,
         locationInfoRecord: response,
       });
@@ -46,14 +46,14 @@ export class LocationController {
       .where(eq(locationInfoTable.geohash, location.geohash));
 
     if (locationInfoRecord.length > 0) {
-      adze.info("Location info record found in cache", {
+      adze.debug("Location info record found in cache", {
         geohash: location.geohash,
         locationInfoRecord,
       });
       return locationInfoRecord[0];
     }
 
-    adze.warn("Location info record not found in cache, will fetch", {
+    adze.fail("Location info record not found in cache, will fetch", {
       geohash: location.geohash,
     });
     const response = await getLocationInfoFromService(location);
@@ -61,7 +61,7 @@ export class LocationController {
       geohash: location.geohash,
       ...response,
     });
-    adze.info("Location info record created", {
+    adze.debug("Location info record created", {
       geohash: location.geohash,
       locationInfoRecord: response,
     });

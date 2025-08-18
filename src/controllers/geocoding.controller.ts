@@ -18,14 +18,14 @@ export class GeocodingController {
     const geohash = ngeohash.encode(lat, lng, config.geohashPrecision);
     const geohashRecord = await this.db.select().from(geohashTable).where(eq(geohashTable.geohash, geohash));
     if (geohashRecord.length > 0) {
-      adze.info("Geohash record found", { geohash, geohashRecord });
+      adze.debug("Geohash record found", { geohash, geohashRecord });
       return {
         ...geohashRecord[0],
         neighborhood: geohashRecord[0].neighborhood ?? undefined,
         street: geohashRecord[0].street ?? undefined,
       };
     }
-    adze.warn("Geohash record not found, will reverse geocode", { geohash });
+    adze.fail("Geohash record not found, will reverse geocode", { geohash });
     const response = await reverseGeocode({ lat, lng });
     await this.db.insert(geohashTable).values({
       geohash,
@@ -37,7 +37,7 @@ export class GeocodingController {
       neighborhood: response.neighborhood ?? "",
       street: response.street ?? "",
     });
-    adze.info("Geohash record created", { geohash, geohashRecord: response });
+    adze.debug("Geohash record created", { geohash, geohashRecord: response });
     return response;
   }
 
@@ -45,14 +45,14 @@ export class GeocodingController {
     adze.info("Getting location from geohash", { geohash });
     const geohashRecord = await this.db.select().from(geohashTable).where(eq(geohashTable.geohash, geohash));
     if (geohashRecord.length > 0) {
-      adze.info("Geohash record found", { geohash, geohashRecord });
+      adze.debug("Geohash record found", { geohash, geohashRecord });
       return {
         ...geohashRecord[0],
         neighborhood: geohashRecord[0].neighborhood ?? undefined,
         street: geohashRecord[0].street ?? undefined,
       };
     }
-    adze.warn("Geohash record not found", { geohash });
+    adze.fail("Geohash record not found", { geohash });
     return null;
   }
 
@@ -62,7 +62,7 @@ export class GeocodingController {
   validateCoordinatesEnabled(lat: number, lng: number): CityFilterResult {
     adze.info("Validating coordinates against enabled cities", { lat, lng });
     const result = checkCityEnabled(lat, lng);
-    adze.info("City validation result", { lat, lng, isEnabled: result.isEnabled });
+    adze.success("City validation result", { lat, lng, isEnabled: result.isEnabled });
     return result;
   }
 }
