@@ -4,6 +4,7 @@ import locate from "./routes/v1/locate";
 import location from "./routes/v1/location";
 import auth from "./routes/v1/auth";
 import waitlist from "./routes/v1/waitlist";
+import cities from "./routes/v1/cities";
 import { serverTiming } from "@elysiajs/server-timing";
 import { swagger } from '@elysiajs/swagger'
 import { cors } from '@elysiajs/cors'
@@ -24,6 +25,7 @@ const app = new Elysia()
   .use(waitlist)
   .group("/v1", (app) => app
     .use(auth)
+    .use(cities)
     .use(locate)
     .use(location)
   )
