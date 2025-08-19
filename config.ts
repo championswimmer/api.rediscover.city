@@ -4,8 +4,8 @@ import adze, { Level } from "adze";
 
 // first load default env
 dotenv.config({ path: ".env" });
-// override with test env if running tests
 
+// override with test env if running tests
 if (process.env.NODE_ENV === "test" || process.argv.includes("test")) {
   adze.info("Loading test environment variables");
   dotenv.config({ path: ".env.test", override: true });
