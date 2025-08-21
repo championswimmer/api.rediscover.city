@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { DatabaseType } from "../db/init";
 import { waitlistTable, WaitlistModel, NewWaitlistModel } from "../db/schema";
+import { posthog } from "../services/posthog";
 
 export class WaitlistController {
   constructor(private db: DatabaseType) {}
@@ -18,6 +19,14 @@ export class WaitlistController {
       .then(entries => entries[0] || null);
 
     if (existingEntry) {
+      posthog?.capture({
+        distinctId: "server",
+        event: "waitlist_add",
+        properties: {
+          email,
+          already_exist: true,
+        },
+      });
       return { entry: existingEntry, created: false };
     }
 
@@ -27,6 +36,15 @@ export class WaitlistController {
       .insert(waitlistTable)
       .values(newEntry)
       .returning();
+
+    posthog?.capture({
+      distinctId: "server",
+      event: "waitlist_add",
+      properties: {
+        email,
+        already_exist: false,
+      },
+    });
 
     return { entry: createdEntry, created: true };
   }

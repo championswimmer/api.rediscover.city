@@ -38,6 +38,7 @@ export const config = {
     googlemaps: process.env.GOOGLE_MAPS_API_KEY!,
     googleai: process.env.GOOGLE_AI_API_KEY!,
     openai: process.env.OPENAI_API_KEY!,
+    posthog: process.env.POSTHOG_API_KEY,
     jwt: process.env.JWT_SECRET || "your-super-secret-jwt-key-change-in-production",
   },
   swaggerConfig: <ElysiaSwaggerConfig>{

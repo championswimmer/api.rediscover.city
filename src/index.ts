@@ -10,6 +10,7 @@ import { swagger } from '@elysiajs/swagger'
 import { cors } from '@elysiajs/cors'
 import { db as _db } from "./db/init";
 import { setup as setupLogger } from "adze"; 
+import './services/posthog'
 
 setupLogger({
   withEmoji: config.logs.emoji,

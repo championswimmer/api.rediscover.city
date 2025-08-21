@@ -29,7 +29,8 @@
     "drizzle-orm": "^0.44.3",
     "elysia": "latest",
     "elysia-rate-limit": "^4.4.0",
-    "ngeohash": "^0.6.3"
+    "ngeohash": "^0.6.3",
+    "posthog-node": "^3.5.0"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.3.6",

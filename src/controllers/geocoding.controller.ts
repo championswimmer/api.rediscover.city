@@ -6,6 +6,7 @@ import { reverseGeocode, ReverseGeocodeResponse } from "../services/geocoding";
 import { checkCityEnabled, CityFilterResult } from "../services/cityfilter";
 import ngeohash from "ngeohash";
 import adze from "adze";
+import { posthog } from "../services/posthog";
 
 export class GeocodingController {
   private readonly db: DatabaseType;
@@ -19,6 +20,16 @@ export class GeocodingController {
     const geohashRecord = await this.db.select().from(geohashTable).where(eq(geohashTable.geohash, geohash));
     if (geohashRecord.length > 0) {
       adze.debug("Geohash record found", { geohash, geohashRecord });
+      posthog?.capture({
+        distinctId: "server",
+        event: "reverse_geocode",
+        properties: {
+          lat: parseFloat(lat),
+          lng: parseFloat(lng),
+          geohash,
+          cache_hit: true,
+        },
+      });
       return {
         ...geohashRecord[0],
         neighborhood: geohashRecord[0].neighborhood ?? undefined,
@@ -38,6 +49,16 @@ export class GeocodingController {
       street: response.street ?? "",
     });
     adze.debug("Geohash record created", { geohash, geohashRecord: response });
+    posthog?.capture({
+      distinctId: "server",
+      event: "reverse_geocode",
+      properties: {
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
+        geohash,
+        cache_hit: false,
+      },
+    });
     return response;
   }
 
