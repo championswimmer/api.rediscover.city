@@ -1,19 +1,138 @@
 [
-  { "city": "New York", "country": "United States", "minLat": 40.476578, "minLon": -74.258843, "maxLat": 40.91763, "maxLon": -73.700233 },
-  { "city": "London", "country": "United Kingdom", "minLat": 51.2867601, "minLon": -0.5103751, "maxLat": 51.6918741, "maxLon": 0.3340155 },
-  { "city": "Paris", "country": "France", "minLat": 48.8155755, "minLon": 2.224122, "maxLat": 48.902156, "maxLon": 2.4697602 },
-  { "city": "Madrid", "country": "Spain", "minLat": 40.3119774, "minLon": -3.8889539, "maxLat": 40.6437293, "maxLon": -3.5179163 },
-  { "city": "Rome", "country": "Italy", "minLat": 41.6556417, "minLon": 12.2344669, "maxLat": 42.1410285, "maxLon": 12.8557603 },
-  { "city": "Istanbul", "country": "Turkey", "minLat": 40.846381, "minLon": 28.8158715, "maxLat": 41.166381, "maxLon": 29.1358715 },
-  { "city": "Amsterdam", "country": "Netherlands", "minLat": 52.2781742, "minLon": 4.7287776, "maxLat": 52.4310638, "maxLon": 5.0791622 },
-  { "city": "Berlin", "country": "Germany", "minLat": 52.3382448, "minLon": 13.088345, "maxLat": 52.6755087, "maxLon": 13.7611609 },
-  { "city": "New Delhi", "country": "India", "minLat": 28.4812209, "minLon": 77.0503708, "maxLat": 28.6456842, "maxLon": 77.2551392 },
-  { "city": "Tokyo", "country": "Japan", "minLat": 35.4816556, "minLon": 139.5629064, "maxLat": 35.8174827, "maxLon": 139.9189004 },
-  { "city": "Mumbai", "country": "India", "minLat": 18.8926, "minLon": 72.7758, "maxLat": 19.2761, "maxLon": 73.0365 },
-  { "city": "Bengaluru", "country": "India", "minLat": 12.7343, "minLon": 77.4071, "maxLat": 13.1394, "maxLon": 77.7118 },
-  { "city": "San Francisco", "country": "United States", "minLat": 37.6398, "minLon": -122.5138, "maxLat": 37.8271, "maxLon": -122.3549 },
-  { "city": "Toronto", "country": "Canada", "minLat": 43.5809, "minLon": -79.6390, "maxLat": 43.8554, "maxLon": -79.1168 },
-  { "city": "Montreal", "country": "Canada", "minLat": 45.4098, "minLon": -73.9731, "maxLat": 45.7041, "maxLon": -73.4764 },
-  { "city": "Frankfurt", "country": "Germany", "minLat": 50.0157, "minLon": 8.5518, "maxLat": 50.2269, "maxLon": 8.8007 },
-  { "city": "Barcelona", "country": "Spain", "minLat": 41.3200, "minLon": 2.0695, "maxLat": 41.4695, "maxLon": 2.2280 }
+  {
+    "city": "New York",
+    "country": "United States",
+    "minLat": 40.30,
+    "minLon": -75.80,
+    "maxLat": 41.50,
+    "maxLon": -72.70
+  },
+  {
+    "city": "London",
+    "country": "United Kingdom",
+    "minLat": 51.2867601,
+    "minLon": -0.5103751,
+    "maxLat": 51.6918741,
+    "maxLon": 0.3340155
+  },
+  {
+    "city": "Paris",
+    "country": "France",
+    "minLat": 48.14,
+    "minLon": 1.45,
+    "maxLat": 49.23,
+    "maxLon": 3.57
+  },
+  {
+    "city": "Madrid",
+    "country": "Spain",
+    "minLat": 40.15,
+    "minLon": -4.50,
+    "maxLat": 41.25,
+    "maxLon": -3.00
+  },
+  {
+    "city": "Rome",
+    "country": "Italy",
+    "minLat": 41.30,
+    "minLon": 11.90,
+    "maxLat": 42.40,
+    "maxLon": 13.60
+  },
+  {
+    "city": "Istanbul",
+    "country": "Turkey",
+    "minLat": 40.70,
+    "minLon": 28.30,
+    "maxLat": 41.50,
+    "maxLon": 29.90
+  },
+  {
+    "city": "Amsterdam",
+    "country": "Netherlands",
+    "minLat": 52.20,
+    "minLon": 4.50,
+    "maxLat": 52.60,
+    "maxLon": 5.30
+  },
+  {
+    "city": "Berlin",
+    "country": "Germany",
+    "minLat": 52.20,
+    "minLon": 12.80,
+    "maxLat": 52.80,
+    "maxLon": 13.90
+  },
+  {
+    "city": "New Delhi",
+    "country": "India",
+    "minLat": 27.50,
+    "minLon": 76.50,
+    "maxLat": 29.60,
+    "maxLon": 78.60
+  },
+  {
+    "city": "Tokyo",
+    "country": "Japan",
+    "minLat": 35.20,
+    "minLon": 139.10,
+    "maxLat": 36.30,
+    "maxLon": 140.90
+  },
+  {
+    "city": "Mumbai",
+    "country": "India",
+    "minLat": 18.80,
+    "minLon": 72.60,
+    "maxLat": 19.60,
+    "maxLon": 73.40
+  },
+  {
+    "city": "Bengaluru",
+    "country": "India",
+    "minLat": 12.60,
+    "minLon": 77.20,
+    "maxLat": 13.40,
+    "maxLon": 78.20
+  },
+  {
+    "city": "San Francisco",
+    "country": "United States",
+    "minLat": 36.90,
+    "minLon": -123.20,
+    "maxLat": 38.80,
+    "maxLon": -121.40
+  },
+  {
+    "city": "Toronto",
+    "country": "Canada",
+    "minLat": 43.30,
+    "minLon": -80.10,
+    "maxLat": 44.20,
+    "maxLon": -78.50
+  },
+  {
+    "city": "Montreal",
+    "country": "Canada",
+    "minLat": 45.20,
+    "minLon": -74.40,
+    "maxLat": 46.10,
+    "maxLon": -73.10
+  },
+  {
+    "city": "Frankfurt",
+    "country": "Germany",
+    "minLat": 49.80,
+    "minLon": 8.20,
+    "maxLat": 50.40,
+    "maxLon": 9.20
+  },
+  {
+    "city": "Barcelona",
+    "country": "Spain",
+    "minLat": 41.20,
+    "minLon": 1.80,
+    "maxLat": 41.70,
+    "maxLon": 2.50
+  }
 ]
