@@ -162,9 +162,9 @@
   {
     "city": "Dubai",
     "country": "United Arab Emirates",
-    "minLat": 25.0548,
+    "minLat": 24.95,
     "minLon": 55.049755,
-    "maxLat": 25.3548,
+    "maxLat": 25.45,
     "maxLon": 55.491845
   },
   {
@@ -187,9 +187,9 @@
     "city": "Moscow",
     "country": "Russia",
     "minLat": 55.4058,
-    "minLon": 36.906768,
+    "minLon": 37.206768,
     "maxLat": 56.1058,
-    "maxLon": 38.328432
+    "maxLon": 38.028432
   },
   {
     "city": "Cairo",
@@ -229,7 +229,7 @@
     "minLat": 1.2021,
     "minLon": 103.619744,
     "maxLat": 1.5021,
-    "maxLon": 104.019856
+    "maxLon": 103.919856
   },
   {
     "city": "Hong Kong",
@@ -322,10 +322,10 @@
   {
     "city": "Jerusalem",
     "country": "Israel",
-    "minLat": 31.6183,
-    "minLon": 34.978457,
-    "maxLat": 31.9183,
-    "maxLon": 35.448943
+    "minLat": 31.68,
+    "minLon": 35.05,
+    "maxLat": 31.92,
+    "maxLon": 35.35
   },
   {
     "city": "Dubrovnik",
@@ -378,10 +378,10 @@
   {
     "city": "Santiago",
     "country": "Chile",
-    "minLat": -33.5989,
+    "minLat": -33.6989,
     "minLon": -70.909,
     "maxLat": -33.2989,
-    "maxLon": -70.4296
+    "maxLon": -70.3296
   },
   {
     "city": "Osaka",

@@ -83,6 +83,14 @@ describe("cityfilter", () => {
     expect(result.enabledCities).toBeInstanceOf(Array);
   });
 
+  it("should return true for coordinates within Beijing", () => {
+    // Beijing coordinates: 39.9042, 116.4074
+    const result = checkCityEnabled(39.9042, 116.4074);
+    
+    expect(result.isEnabled).toBe(true);
+    expect(result.enabledCities).toBeInstanceOf(Array);
+  });
+
   it("should return false for coordinates outside all enabled cities", () => {
     // Middle of ocean coordinates: 0, 0
     const result = checkCityEnabled(0, 0);
