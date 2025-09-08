@@ -134,5 +134,293 @@
     "minLon": 1.80,
     "maxLat": 41.70,
     "maxLon": 2.50
+  },
+  {
+    "city": "Beijing",
+    "country": "China",
+    "minLat": 39.5542,
+    "minLon": 115.885968,
+    "maxLat": 40.2542,
+    "maxLon": 116.928832
+  },
+  {
+    "city": "Rio de Janeiro",
+    "country": "Brazil",
+    "minLat": -23.1568,
+    "minLon": -43.498584,
+    "maxLat": -22.6568,
+    "maxLon": -42.847216
+  },
+  {
+    "city": "Sydney",
+    "country": "Australia",
+    "minLat": -34.1188,
+    "minLon": 150.847992,
+    "maxLat": -33.6188,
+    "maxLon": 151.570608
+  },
+  {
+    "city": "Dubai",
+    "country": "United Arab Emirates",
+    "minLat": 24.95,
+    "minLon": 55.049755,
+    "maxLat": 25.45,
+    "maxLon": 55.491845
+  },
+  {
+    "city": "Bangkok",
+    "country": "Thailand",
+    "minLat": 13.5063,
+    "minLon": 100.192941,
+    "maxLat": 14.0063,
+    "maxLon": 100.810659
+  },
+  {
+    "city": "Shanghai",
+    "country": "China",
+    "minLat": 30.8804,
+    "minLon": 121.005913,
+    "maxLat": 31.5804,
+    "maxLon": 121.941487
+  },
+  {
+    "city": "Moscow",
+    "country": "Russia",
+    "minLat": 55.4058,
+    "minLon": 37.206768,
+    "maxLat": 56.1058,
+    "maxLon": 38.028432
+  },
+  {
+    "city": "Cairo",
+    "country": "Egypt",
+    "minLat": 29.8944,
+    "minLon": 31.004656,
+    "maxLat": 30.1944,
+    "maxLon": 31.466744
+  },
+  {
+    "city": "Mexico City",
+    "country": "Mexico",
+    "minLat": 19.0826,
+    "minLon": -99.557363,
+    "maxLat": 19.7826,
+    "maxLon": -98.709037
+  },
+  {
+    "city": "Seoul",
+    "country": "South Korea",
+    "minLat": 37.3165,
+    "minLon": 126.599521,
+    "maxLat": 37.8165,
+    "maxLon": 127.356479
+  },
+  {
+    "city": "Los Angeles",
+    "country": "United States",
+    "minLat": 33.7022,
+    "minLon": -118.726484,
+    "maxLat": 34.4022,
+    "maxLon": -117.760916
+  },
+  {
+    "city": "Singapore",
+    "country": "Singapore",
+    "minLat": 1.2021,
+    "minLon": 103.619744,
+    "maxLat": 1.5021,
+    "maxLon": 103.919856
+  },
+  {
+    "city": "Hong Kong",
+    "country": "Hong Kong SAR",
+    "minLat": 22.1693,
+    "minLon": 113.953203,
+    "maxLat": 22.4693,
+    "maxLon": 114.385597
+  },
+  {
+    "city": "Prague",
+    "country": "Czech Republic",
+    "minLat": 49.9255,
+    "minLon": 14.126166,
+    "maxLat": 50.2255,
+    "maxLon": 14.749434
+  },
+  {
+    "city": "Vienna",
+    "country": "Austria",
+    "minLat": 47.9582,
+    "minLon": 15.923637,
+    "maxLat": 48.4582,
+    "maxLon": 16.823963
+  },
+  {
+    "city": "Buenos Aires",
+    "country": "Argentina",
+    "minLat": -34.8618,
+    "minLon": -58.760511,
+    "maxLat": -34.3618,
+    "maxLon": -58.031489
+  },
+  {
+    "city": "Florence",
+    "country": "Italy",
+    "minLat": 43.6196,
+    "minLon": 10.978841,
+    "maxLat": 43.9196,
+    "maxLon": 11.532759
+  },
+  {
+    "city": "Lisbon",
+    "country": "Portugal",
+    "minLat": 38.5723,
+    "minLon": -9.395649,
+    "maxLat": 38.8723,
+    "maxLon": -8.882951
+  },
+  {
+    "city": "Antalya",
+    "country": "Turkey",
+    "minLat": 36.7469,
+    "minLon": 30.463212,
+    "maxLat": 37.0469,
+    "maxLon": 30.963388
+  },
+  {
+    "city": "Ho Chi Minh City",
+    "country": "Vietnam",
+    "minLat": 10.6731,
+    "minLon": 106.426078,
+    "maxLat": 10.9731,
+    "maxLon": 106.833322
+  },
+  {
+    "city": "Kuala Lumpur",
+    "country": "Malaysia",
+    "minLat": 2.989,
+    "minLon": 101.486599,
+    "maxLat": 3.289,
+    "maxLon": 101.887201
+  },
+  {
+    "city": "Milan",
+    "country": "Italy",
+    "minLat": 45.3142,
+    "minLon": 8.904838,
+    "maxLat": 45.6142,
+    "maxLon": 9.475162
+  },
+  {
+    "city": "Athens",
+    "country": "Greece",
+    "minLat": 37.8255,
+    "minLon": 23.481081,
+    "maxLat": 38.1255,
+    "maxLon": 23.988519
+  },
+  {
+    "city": "Jerusalem",
+    "country": "Israel",
+    "minLat": 31.68,
+    "minLon": 35.05,
+    "maxLat": 31.92,
+    "maxLon": 35.35
+  },
+  {
+    "city": "Dubrovnik",
+    "country": "Croatia",
+    "minLat": 42.5007,
+    "minLon": 17.822475,
+    "maxLat": 42.8007,
+    "maxLon": 18.366325
+  },
+  {
+    "city": "Cape Town",
+    "country": "South Africa",
+    "minLat": -34.0749,
+    "minLon": 18.183069,
+    "maxLat": -33.7749,
+    "maxLon": 18.665131
+  },
+  {
+    "city": "Agra",
+    "country": "India",
+    "minLat": 27.0267,
+    "minLon": 77.78328,
+    "maxLat": 27.3267,
+    "maxLon": 78.23292
+  },
+  {
+    "city": "Venice",
+    "country": "Italy",
+    "minLat": 45.2908,
+    "minLon": 12.030456,
+    "maxLat": 45.5908,
+    "maxLon": 12.600544
+  },
+  {
+    "city": "Mecca",
+    "country": "Saudi Arabia",
+    "minLat": 21.2391,
+    "minLon": 39.643106,
+    "maxLat": 21.5391,
+    "maxLon": 40.072694
+  },
+  {
+    "city": "Orlando",
+    "country": "United States",
+    "minLat": 28.3883,
+    "minLon": -81.606861,
+    "maxLat": 28.6883,
+    "maxLon": -81.151539
+  },
+  {
+    "city": "Santiago",
+    "country": "Chile",
+    "minLat": -33.6989,
+    "minLon": -70.909,
+    "maxLat": -33.2989,
+    "maxLon": -70.3296
+  },
+  {
+    "city": "Osaka",
+    "country": "Japan",
+    "minLat": 34.5437,
+    "minLon": 135.259052,
+    "maxLat": 34.8437,
+    "maxLon": 135.745548
+  },
+  {
+    "city": "Dublin",
+    "country": "Ireland",
+    "minLat": 53.1998,
+    "minLon": -6.595349,
+    "maxLat": 53.4998,
+    "maxLon": -5.925251
+  },
+  {
+    "city": "Edinburgh",
+    "country": "United Kingdom",
+    "minLat": 55.8033,
+    "minLon": -3.545527,
+    "maxLat": 56.1033,
+    "maxLon": -2.831073
+  },
+  {
+    "city": "Havana",
+    "country": "Cuba",
+    "minLat": 22.9636,
+    "minLon": -82.584056,
+    "maxLat": 23.2636,
+    "maxLon": -82.149144
+  },
+  {
+    "city": "Marrakech",
+    "country": "Morocco",
+    "minLat": 31.4795,
+    "minLon": -8.215991,
+    "maxLat": 31.7795,
+    "maxLon": -7.746209
   }
 ]

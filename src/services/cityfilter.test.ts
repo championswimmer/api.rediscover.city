@@ -51,6 +51,46 @@ describe("cityfilter", () => {
     expect(result.enabledCities).toBeInstanceOf(Array);
   });
 
+  it("should return true for coordinates within Sydney", () => {
+    // Sydney coordinates: -33.8688, 151.2093
+    const result = checkCityEnabled(-33.8688, 151.2093);
+    
+    expect(result.isEnabled).toBe(true);
+    expect(result.enabledCities).toBeInstanceOf(Array);
+  });
+
+  it("should return true for coordinates within Dubai", () => {
+    // Dubai coordinates: 25.2048, 55.2708
+    const result = checkCityEnabled(25.2048, 55.2708);
+    
+    expect(result.isEnabled).toBe(true);
+    expect(result.enabledCities).toBeInstanceOf(Array);
+  });
+
+  it("should return true for coordinates within Bangkok", () => {
+    // Bangkok coordinates: 13.7563, 100.5018
+    const result = checkCityEnabled(13.7563, 100.5018);
+    
+    expect(result.isEnabled).toBe(true);
+    expect(result.enabledCities).toBeInstanceOf(Array);
+  });
+
+  it("should return true for coordinates within Moscow", () => {
+    // Moscow coordinates: 55.7558, 37.6176
+    const result = checkCityEnabled(55.7558, 37.6176);
+    
+    expect(result.isEnabled).toBe(true);
+    expect(result.enabledCities).toBeInstanceOf(Array);
+  });
+
+  it("should return true for coordinates within Beijing", () => {
+    // Beijing coordinates: 39.9042, 116.4074
+    const result = checkCityEnabled(39.9042, 116.4074);
+    
+    expect(result.isEnabled).toBe(true);
+    expect(result.enabledCities).toBeInstanceOf(Array);
+  });
+
   it("should return false for coordinates outside all enabled cities", () => {
     // Middle of ocean coordinates: 0, 0
     const result = checkCityEnabled(0, 0);
@@ -88,6 +128,14 @@ describe("cityfilter", () => {
     expect(cityNames).toContain("Montreal");
     expect(cityNames).toContain("Frankfurt");
     expect(cityNames).toContain("Barcelona");
+    // Check some of the newly added cities
+    expect(cityNames).toContain("Beijing");
+    expect(cityNames).toContain("Sydney");
+    expect(cityNames).toContain("Dubai");
+    expect(cityNames).toContain("Bangkok");
+    expect(cityNames).toContain("Moscow");
+    expect(cityNames).toContain("Seoul");
+    expect(cityNames).toContain("Singapore");
   });
 
   it("should have proper structure for enabled cities", () => {
