@@ -28,7 +28,7 @@ export const usersTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
   email: varchar("email", { length: 255 }).notNull().unique(),
   passwordHash: text("password_hash"), // Made optional for OAuth users
-  googleId: varchar("google_id", { length: 255 }), // Google OAuth ID
+  googleId: varchar("google_id", { length: 255 }).unique(), // Google OAuth ID
   googleAccessToken: text("google_access_token"), // Store Google access token
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
