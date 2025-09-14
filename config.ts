@@ -40,6 +40,8 @@ export const config = {
     openai: process.env.OPENAI_API_KEY!,
     posthog: process.env.POSTHOG_API_KEY,
     jwt: process.env.JWT_SECRET || "your-super-secret-jwt-key-change-in-production",
+    googleOAuthClientId: process.env.GOOGLE_OAUTH_CLIENT_ID!,
+    googleOAuthClientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET!,
   },
   swaggerConfig: <ElysiaSwaggerConfig>{
     documentation: {

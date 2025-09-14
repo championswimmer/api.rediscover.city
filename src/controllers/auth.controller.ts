@@ -26,6 +26,11 @@ export class AuthController {
       return null;
     }
 
+    // Check if user has a password hash (regular auth user)
+    if (!user.passwordHash) {
+      return null; // OAuth user trying to login with password
+    }
+
     const isValidPassword = AuthService.verifyPassword(password, user.passwordHash);
     
     if (!isValidPassword) {
@@ -115,11 +120,68 @@ export class AuthController {
       .values({
         email,
         passwordHash,
+        googleId: null,
+        googleAccessToken: null,
       })
       .returning();
 
     // Delete the invite after successful registration
     await this.inviteCtrl.deleteInvite(email);
+
+    return user;
+  }
+
+  /**
+   * Create or get user from Google OAuth
+   */
+  async createOrGetGoogleUser(email: string, googleId: string, accessToken: string): Promise<UserModel> {
+    // Check if user already exists (by email or Google ID)
+    const existingUser = await this.db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, email))
+      .limit(1)
+      .then(users => users[0] || null);
+
+    if (existingUser) {
+      // Update Google tokens if user exists
+      const [updatedUser] = await this.db
+        .update(usersTable)
+        .set({
+          googleId,
+          googleAccessToken: accessToken,
+          updatedAt: new Date(),
+        })
+        .where(eq(usersTable.id, existingUser.id))
+        .returning();
+
+      return updatedUser;
+    }
+
+    // Create new user with Google OAuth data
+    const [newUser] = await this.db
+      .insert(usersTable)
+      .values({
+        email,
+        googleId,
+        googleAccessToken: accessToken,
+        passwordHash: null, // No password for OAuth users
+      })
+      .returning();
+
+    return newUser;
+  }
+
+  /**
+   * Get user by Google ID
+   */
+  async getUserByGoogleId(googleId: string): Promise<UserModel | null> {
+    const user = await this.db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.googleId, googleId))
+      .limit(1)
+      .then(users => users[0] || null);
 
     return user;
   }
