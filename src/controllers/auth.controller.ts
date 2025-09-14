@@ -135,16 +135,28 @@ export class AuthController {
    * Create or get user from Google OAuth
    */
   async createOrGetGoogleUser(email: string, googleId: string, accessToken: string): Promise<UserModel> {
-    // Check if user already exists (by email or Google ID)
-    const existingUser = await this.db
+    // 1. Find user by Google ID for existing OAuth users
+    let user = await this.getUserByGoogleId(googleId);
+    if (user) {
+      // User exists, update their access token
+      const [updatedUser] = await this.db
+        .update(usersTable)
+        .set({ googleAccessToken: accessToken, updatedAt: new Date() })
+        .where(eq(usersTable.id, user.id))
+        .returning();
+      return updatedUser;
+    }
+
+    // 2. If not found, check by email to link an existing account
+    user = await this.db
       .select()
       .from(usersTable)
       .where(eq(usersTable.email, email))
       .limit(1)
       .then(users => users[0] || null);
 
-    if (existingUser) {
-      // Update Google tokens if user exists
+    if (user) {
+      // User with this email exists, link their Google account
       const [updatedUser] = await this.db
         .update(usersTable)
         .set({
@@ -152,9 +164,8 @@ export class AuthController {
           googleAccessToken: accessToken,
           updatedAt: new Date(),
         })
-        .where(eq(usersTable.id, existingUser.id))
+        .where(eq(usersTable.id, user.id))
         .returning();
-
       return updatedUser;
     }
 
