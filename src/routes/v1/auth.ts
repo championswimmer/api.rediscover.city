@@ -127,7 +127,7 @@ const route = new Elysia({ prefix: "/auth" })
   .post("/google", async ({ body, oauth2, jwt, set, authCtrl }) => {
     try {
       // Get Google OAuth tokens
-      const tokens = await oauth2.authorize("Google");
+      const tokens = await oauth2.authorize("Google", body.code);
       const accessToken = tokens.accessToken();
 
       // Get user info from Google
