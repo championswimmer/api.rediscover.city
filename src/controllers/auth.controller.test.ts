@@ -224,4 +224,94 @@ describe("AuthController", () => {
       expect(result.user!.id).toBe(testUser.id);
     });
   });
+
+  describe("Google OAuth", () => {
+    const googleTestEmail = "google@test.example.com";
+    const googleTestId = "google-123456789";
+    const googleTestAccessToken = "google-access-token-123";
+
+    afterEach(async () => {
+      // Clean up test data
+      try {
+        await testDb.delete(usersTable).where(eq(usersTable.email, googleTestEmail));
+      } catch (error) {
+        adze.ns("auth:test").error("Error cleaning up Google OAuth test data", { error });
+      }
+    });
+
+    it("should create a new user from Google OAuth", async () => {
+      const user = await authCtrl.createOrGetGoogleUser(
+        googleTestEmail, 
+        googleTestId, 
+        googleTestAccessToken
+      );
+      
+      expect(user.email).toBe(googleTestEmail);
+      expect(user.googleId).toBe(googleTestId);
+      expect(user.googleAccessToken).toBe(googleTestAccessToken);
+      expect(user.passwordHash).toBeNull();
+      expect(user.id).toBeDefined();
+      expect(user.createdAt).toBeDefined();
+      expect(user.updatedAt).toBeDefined();
+    });
+
+    it("should update existing user with Google OAuth data", async () => {
+      // First create a user
+      const firstUser = await authCtrl.createOrGetGoogleUser(
+        googleTestEmail, 
+        googleTestId, 
+        googleTestAccessToken
+      );
+
+      // Call again with updated access token
+      const newAccessToken = "new-google-access-token-456";
+      const updatedUser = await authCtrl.createOrGetGoogleUser(
+        googleTestEmail, 
+        googleTestId, 
+        newAccessToken
+      );
+
+      expect(updatedUser.id).toBe(firstUser.id);
+      expect(updatedUser.email).toBe(googleTestEmail);
+      expect(updatedUser.googleId).toBe(googleTestId);
+      expect(updatedUser.googleAccessToken).toBe(newAccessToken);
+      expect(updatedUser.updatedAt.getTime()).toBeGreaterThan(firstUser.updatedAt.getTime());
+    });
+
+    it("should get user by Google ID", async () => {
+      // Create a user first
+      await authCtrl.createOrGetGoogleUser(
+        googleTestEmail, 
+        googleTestId, 
+        googleTestAccessToken
+      );
+
+      const user = await authCtrl.getUserByGoogleId(googleTestId);
+      
+      expect(user).not.toBeNull();
+      expect(user!.email).toBe(googleTestEmail);
+      expect(user!.googleId).toBe(googleTestId);
+      expect(user!.googleAccessToken).toBe(googleTestAccessToken);
+    });
+
+    it("should return null for non-existent Google ID", async () => {
+      const user = await authCtrl.getUserByGoogleId("non-existent-google-id");
+      
+      expect(user).toBeNull();
+    });
+
+    it("should prevent OAuth user from logging in with password", async () => {
+      // Create a Google OAuth user (no password)
+      await authCtrl.createOrGetGoogleUser(
+        googleTestEmail, 
+        googleTestId, 
+        googleTestAccessToken
+      );
+
+      // Try to login with password
+      const loginResult = await authCtrl.login(googleTestEmail, "some-password");
+      
+      expect(loginResult).toBeNull();
+    });
+  });
 });
