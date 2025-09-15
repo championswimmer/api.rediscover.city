@@ -28,6 +28,7 @@
     "dotenv": "^17.2.0",
     "drizzle-orm": "^0.44.3",
     "elysia": "latest",
+    "elysia-oauth2": "^2.1.0",
     "elysia-rate-limit": "^4.4.0",
     "ngeohash": "^0.6.3",
     "posthog-node": "^3.5.0"
