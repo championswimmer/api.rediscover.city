@@ -45,6 +45,19 @@ export const waitlistTable = pgTable("waitlist", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const googleAuthsTable = pgTable("google_auths", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  googleId: varchar("google_id", { length: 255 }).notNull().unique(),
+  email: varchar("email", { length: 255 }).notNull(),
+  name: varchar("name", { length: 255 }),
+  picture: text("picture"),
+  accessToken: text("access_token"),
+  refreshToken: text("refresh_token"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export type GeohashModel = typeof geohashTable.$inferSelect;
 export type LocationInfoModel = typeof locationInfoTable.$inferSelect;
 export type UserModel = typeof usersTable.$inferSelect;
@@ -53,3 +66,5 @@ export type InviteModel = typeof invitesTable.$inferSelect;
 export type NewInviteModel = typeof invitesTable.$inferInsert;
 export type WaitlistModel = typeof waitlistTable.$inferSelect;
 export type NewWaitlistModel = typeof waitlistTable.$inferInsert;
+export type GoogleAuthModel = typeof googleAuthsTable.$inferSelect;
+export type NewGoogleAuthModel = typeof googleAuthsTable.$inferInsert;
