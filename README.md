@@ -12,6 +12,13 @@ This project is the backend REST API for the Rediscover City web application. It
 
 The following endpoints are available under the `/v1` prefix:
 
+### Authentication
+- `POST /v1/auth/login`: Login with email and password to get JWT token
+- `POST /v1/auth/register`: Register a new user account with invite code
+- `GET /v1/auth/google`: Redirect to Google OAuth for authentication
+- `POST /v1/auth/google`: Process Google OAuth callback and return JWT token
+
+### Location Services
 - `GET /v1/locate`: Reverse geocode from `lat` and `lng` query parameters to locality and city information.
   - **Query Params**: `lat` (number), `lng` (number)
 - `GET /v1/location/info`: Get AI-generated narrative information about a location.
@@ -50,6 +57,57 @@ To get started with development, follow these steps:
     ```bash
     bun test src/db/database.test.ts  # Database-specific tests
     ```
+
+## Environment Configuration
+
+Create a `.env` file in the root directory with the following variables:
+
+```bash
+# Database
+DATABASE_URL="your-postgres-connection-string"
+DB_DIALECT="postgres"
+
+# API Keys
+GOOGLE_MAPS_API_KEY="your-google-maps-api-key"
+GOOGLE_AI_API_KEY="your-google-ai-api-key"
+PERPLEXITY_API_KEY="your-perplexity-api-key"
+OPENAI_API_KEY="your-openai-api-key"
+
+# Google OAuth
+GOOGLE_OAUTH_CLIENT_ID="your-google-oauth-client-id"
+GOOGLE_OAUTH_CLIENT_SECRET="your-google-oauth-client-secret"
+
+# Authentication
+JWT_SECRET="your-jwt-secret"
+
+# Other
+API_BASE_URL="http://localhost:3000"
+GEOHASH_PRECISION=7
+```
+
+### Google OAuth Setup
+
+To enable Google Login functionality:
+
+1. **Create a Google Cloud Project**:
+   - Go to the [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select an existing one
+
+2. **Enable Google OAuth API**:
+   - Navigate to "APIs & Services" > "Library"
+   - Search for and enable "Google+ API" or "Google Identity API"
+
+3. **Create OAuth 2.0 Credentials**:
+   - Go to "APIs & Services" > "Credentials"
+   - Click "Create Credentials" > "OAuth 2.0 Client IDs"
+   - Set application type to "Web application"
+   - Add authorized redirect URIs:
+     - `https://app.rediscover.city/auth/google/callback` (production)
+     - `http://localhost:3001/auth/google/callback` (development)
+
+4. **Configure Environment Variables**:
+   - Copy the Client ID and Client Secret to your `.env` file
+   - Set `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET`
 
 ## Database Configuration
 
