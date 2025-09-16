@@ -1,4 +1,4 @@
-import { pgTable, varchar, point, text, jsonb, timestamp, uuid } from "drizzle-orm/pg-core";
+import { pgTable, varchar, point, text, jsonb, timestamp, uuid, } from "drizzle-orm/pg-core";
 import { LocationInfoResponse } from "../services/locationinfo";
 
 export const geohashTable = pgTable("geohash", {
@@ -24,10 +24,23 @@ export const locationInfoTable = pgTable("location_info", {
   economy: text("economy").notNull(),
 });
 
+
+export const googleOauthTable = pgTable("google_oauth", {
+  userId: uuid("user_id").primaryKey().references(() => usersTable.id),
+  googleId: varchar("google_id", { length: 255 }).notNull().unique(),
+  email: varchar("email", { length: 255 }).notNull(),
+  name: varchar("name", { length: 255 }).notNull(),
+  avatarUrl: text("avatar_url"),
+  accessToken: text("access_token").notNull(),
+  refreshToken: text("refresh_token"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const usersTable = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
   email: varchar("email", { length: 255 }).notNull().unique(),
-  passwordHash: text("password_hash").notNull(),
+  passwordHash: text("password_hash"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -53,3 +66,5 @@ export type InviteModel = typeof invitesTable.$inferSelect;
 export type NewInviteModel = typeof invitesTable.$inferInsert;
 export type WaitlistModel = typeof waitlistTable.$inferSelect;
 export type NewWaitlistModel = typeof waitlistTable.$inferInsert;
+export type GoogleOauthModel = typeof googleOauthTable.$inferSelect;
+export type NewGoogleOauthModel = typeof googleOauthTable.$inferInsert;

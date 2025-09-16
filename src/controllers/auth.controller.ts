@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { DatabaseType } from "../db/init";
-import { usersTable, UserModel } from "../db/schema";
+import { usersTable, UserModel, googleOauthTable } from "../db/schema";
 import { AuthService } from "../services/auth";
 import { InviteController } from "./invite.controller";
 
@@ -27,7 +27,7 @@ export class AuthController {
     }
 
     const isValidPassword = AuthService.verifyPassword(password, user.passwordHash);
-    
+
     if (!isValidPassword) {
       return null;
     }
@@ -54,7 +54,7 @@ export class AuthController {
    */
   async authenticateRequest(headers: any, jwt: any, set: any): Promise<{ error?: any; user?: UserModel }> {
     const authorization = headers.authorization;
-    
+
     if (!authorization) {
       set.status = 401;
       return { error: { message: "Authorization header required" } };
@@ -66,14 +66,14 @@ export class AuthController {
 
     try {
       const payload = await jwt.verify(token);
-      
+
       if (!payload || typeof payload !== "object" || !payload.userId) {
         set.status = 401;
         return { error: { message: "Invalid token" } };
       }
 
       const user = await this.getUserById(String(payload.userId));
-      
+
       if (!user) {
         set.status = 401;
         return { error: { message: "User not found" } };
@@ -109,7 +109,7 @@ export class AuthController {
     }
 
     const passwordHash = AuthService.hashPassword(password);
-    
+
     const [user] = await this.db
       .insert(usersTable)
       .values({
@@ -121,6 +121,58 @@ export class AuthController {
     // Delete the invite after successful registration
     await this.inviteCtrl.deleteInvite(email);
 
+    return user;
+  }
+
+  /**
+   * Get user by Google ID (for Google OAuth)
+   */
+  async getUserByGoogleId(googleId: string): Promise<UserModel | null> {
+    const user = await this.db
+      .select()
+      .from(googleOauthTable)
+      .innerJoin(usersTable, eq(googleOauthTable.userId, usersTable.id))
+      .where(eq(googleOauthTable.googleId, googleId))
+      .limit(1)
+      .then(results => results[0]?.users || null);
+
+    return user;
+  }
+
+  /**
+   * Create or get a user with Google OAuth
+   * NOTE: This will merge account if email already exists with non-Google login
+   */
+  async getOrCreateUserWithGoogle(googleId: string, email: string, name: string, avatarUrl: string, accessToken: string, refreshToken: string | null): Promise<UserModel> {
+    // Check if user already exists first
+    const existingUser = await this.getUserByGoogleId(googleId);
+
+    if (existingUser) {
+      return existingUser;
+    }
+
+    // Create new user
+    const [user] = await this.db
+      .insert(usersTable)
+      .values({
+        email,
+        passwordHash: null, // No password for OAuth users
+      })
+      .returning();
+    
+    // Link Google OAuth info
+    await this.db
+      .insert(googleOauthTable)
+      .values({
+        userId: user.id,
+        googleId,
+        email,
+        name,
+        avatarUrl,
+        accessToken,
+        refreshToken,
+      });
+      
     return user;
   }
 }

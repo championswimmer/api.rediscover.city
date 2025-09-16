@@ -11,6 +11,7 @@ import { cors } from '@elysiajs/cors'
 import { db as _db } from "./db/init";
 import { setup as setupLogger } from "adze"; 
 import './services/posthog'
+import { ip } from "elysia-ip";
 
 setupLogger({
   withEmoji: config.logs.emoji,

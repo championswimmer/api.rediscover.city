@@ -21,6 +21,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 let apiBaseUrl = process.env.API_BASE_URL || "http://localhost:3000";
+let appBaseUrl = process.env.APP_BASE_URL || "http://localhost:8080";
 
 if (process.env.RAILWAY_PUBLIC_DOMAIN) {
   adze.info("Using Railway public domain for API base URL", process.env.RAILWAY_PUBLIC_DOMAIN);
@@ -101,6 +102,16 @@ export const config = {
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
+  },
+  oauth: {
+    google: {
+      clientId: process.env.GOOGLE_OAUTH_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET || "",
+    }
+  },
+  baseUrls: {
+    api: apiBaseUrl,
+    app: appBaseUrl
   },
   aiModel: process.env.AI_MODEL || "google/gemini-2.5-flash-lite"
 };
