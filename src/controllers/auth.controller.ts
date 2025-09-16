@@ -26,6 +26,11 @@ export class AuthController {
       return null;
     }
 
+    // Check if passwordHash is null (e.g., for OAuth users)
+    if (!user.passwordHash) {
+      return null;
+    }
+
     const isValidPassword = AuthService.verifyPassword(password, user.passwordHash);
 
     if (!isValidPassword) {
