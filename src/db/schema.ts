@@ -13,8 +13,8 @@ export const geohashTable = pgTable("geohash", {
 });
 
 export const locationInfoTable = pgTable("location_info", {
-  geohash: varchar({ length: 10 }).primaryKey(),
-  language: varchar({ length: 20 }).default('english'),
+  geohash: varchar({ length: 10 }).notNull(),
+  language: varchar({ length: 20 }).default('english').notNull(),
   name: text("name").notNull(),
   description: text("description").notNull(),
   history: text("history").notNull(),
