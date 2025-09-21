@@ -14,6 +14,7 @@ export const geohashTable = pgTable("geohash", {
 
 export const locationInfoTable = pgTable("location_info", {
   geohash: varchar({ length: 10 }).primaryKey(),
+  language: varchar({ length: 20 }).default('english'),
   name: text("name").notNull(),
   description: text("description").notNull(),
   history: text("history").notNull(),
@@ -22,7 +23,12 @@ export const locationInfoTable = pgTable("location_info", {
   climate: text("climate").notNull(),
   demographics: text("demographics").notNull(),
   economy: text("economy").notNull(),
-});
+}, (table) => ({
+  pk: {
+    columns: [table.geohash, table.language],
+    name: "location_info_pkey",
+  },
+}));
 
 
 export const googleOauthTable = pgTable("google_oauth", {
@@ -59,7 +65,9 @@ export const waitlistTable = pgTable("waitlist", {
 });
 
 export type GeohashModel = typeof geohashTable.$inferSelect;
-export type LocationInfoModel = typeof locationInfoTable.$inferSelect;
+export type LocationInfoModel = typeof locationInfoTable.$inferSelect & {
+  language: string;
+};
 export type UserModel = typeof usersTable.$inferSelect;
 export type NewUserModel = typeof usersTable.$inferInsert;
 export type InviteModel = typeof invitesTable.$inferSelect;
