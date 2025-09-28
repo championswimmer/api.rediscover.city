@@ -15,7 +15,7 @@
   "deploy": {
     "numReplicas": 1,
     "restartPolicyType": "ALWAYS",
-    "restartPolicyMaxRetries": 5,
+    "restartPolicyMaxRetries": 3,
     "sleepApplication": false
   }
 }
