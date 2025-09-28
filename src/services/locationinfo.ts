@@ -16,6 +16,7 @@ export const LocationInfoRequestSchema = t.Object({
   lat: t.Optional(t.String({ examples: ["40.7128", "51.5074"] })), // NYC, London
   lng: t.Optional(t.String({ examples: ["-74.0060", "-0.1278"] })), // NYC, London
   refresh: t.Optional(t.Boolean({ default: false, examples: [true, false] })),
+  language: t.Optional(t.String({ examples: ["english", "spanish", "french"] })),
 });
 
 export type LocationInfoRequest = Static<typeof LocationInfoRequestSchema>;
@@ -104,9 +105,9 @@ export const LocationInfoResponseSchema = t.Object({
 
 export type LocationInfoResponse = Static<typeof LocationInfoResponseSchema>;
 
-export async function getLocationInfo(location: ReverseGeocodeResponse): Promise<LocationInfoResponse> {
+export async function getLocationInfo(location: ReverseGeocodeResponse, language?: string): Promise<LocationInfoResponse> {
   const { latitude, longitude } = ngeohash.decode(location.geohash);
-  adze.info("Getting location info", { latitude, longitude, geohash: location.geohash, model: config.aiModel });
+  adze.info("Getting location info", { latitude, longitude, geohash: location.geohash, model: config.aiModel, language });
   const response = await generateObject({
     model: getModel(),
     providerOptions: getProviderOptions(), // TODO: re-enable search grounding for PRO users
@@ -115,6 +116,7 @@ export async function getLocationInfo(location: ReverseGeocodeResponse): Promise
       ...location,
       latitude,
       longitude,
+      language,
     }),
   })
 
