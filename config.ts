@@ -97,7 +97,8 @@ export const config = {
       "https://rediscover.city",
       "https://app.rediscover.city",
       "https://rediscover-city.lovable.app",
-      "https://rediscover-city.vercel.app"
+      "https://rediscover-city.vercel.app",
+      "https://rediscovercity--championswimmer.github.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
