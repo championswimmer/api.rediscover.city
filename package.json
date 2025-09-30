@@ -11,9 +11,9 @@
     "create_invite": "bun run src/scripts/create_invite.ts"
   },
   "dependencies": {
-    "@ai-sdk/google": "^2.0.14",
-    "@ai-sdk/openai": "^2.0.30",
-    "@ai-sdk/perplexity": "^2.0.9",
+    "@ai-sdk/google": "^2.0.17",
+    "@ai-sdk/openai": "^2.0.42",
+    "@ai-sdk/perplexity": "^2.0.11",
     "@elysiajs/cors": "^1.4.0",
     "@elysiajs/jwt": "^1.4.0",
     "@elysiajs/server-timing": "^1.4.0",
@@ -24,22 +24,22 @@
     "@types/ngeohash": "^0.6.8",
     "@typeschema/typebox": "^0.14.0",
     "adze": "^2.2.5",
-    "ai": "^5.0.44",
+    "ai": "^5.0.59",
     "arctic": "^3.7.0",
-    "dotenv": "^17.2.2",
+    "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.5",
     "elysia": "latest",
     "elysia-ip": "^1.0.10",
     "elysia-oauth2": "^2.1.0",
     "elysia-rate-limit": "^4.4.0",
     "ngeohash": "^0.6.3",
-    "posthog-node": "5"
+    "posthog-node": "^5.9.2"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.3.8",
-    "@types/bun": "^1.2.22",
+    "@electric-sql/pglite": "^0.3.10",
+    "@types/bun": "^1.2.23",
     "bun-types": "latest",
-    "drizzle-kit": "^0.31.4",
+    "drizzle-kit": "^0.31.5",
     "pg": "^8.16.3"
   },
   "module": "src/index.js"
