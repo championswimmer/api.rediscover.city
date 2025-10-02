@@ -10,10 +10,10 @@
   {
     "city": "London",
     "country": "United Kingdom",
-    "minLat": 51.5068709,
-    "minLon": -0.1138295,
-    "maxLat": 51.5233122,
-    "maxLon": -0.0727619
+    "minLat": 51.4268709,
+    "minLon": -0.1838295,
+    "maxLat": 51.5833122,
+    "maxLon": 0.1327619
   },
   {
     "city": "Paris",
