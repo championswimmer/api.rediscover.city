@@ -4,7 +4,7 @@ import {
   getLocationInfo as getLocationInfoFromService,
   LocationInfoResponse,
 } from "../services/locationinfo";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { locationInfoTable } from "../db/schema";
 import adze from "adze";
 
@@ -16,7 +16,8 @@ export class LocationController {
 
   async getLocationInfo(
     location: ReverseGeocodeResponse,
-    refresh: boolean = false
+    refresh: boolean = false,
+    language?: string
   ): Promise<LocationInfoResponse> {
     adze.info("Getting location info", { geohash: location.geohash, refresh });
     
@@ -25,12 +26,18 @@ export class LocationController {
       adze.warn("Refresh requested, bypassing cache", {
         geohash: location.geohash,
       });
-      const response = await getLocationInfoFromService(location);
+      const response = await getLocationInfoFromService(location, language);
       // Delete existing record if it exists
-      await this.db.delete(locationInfoTable).where(eq(locationInfoTable.geohash, location.geohash));
+      await this.db.delete(locationInfoTable).where(
+        and(
+          eq(locationInfoTable.geohash, location.geohash),
+          eq(locationInfoTable.language, language || 'english')
+        )
+      );
       // Insert new record
       await this.db.insert(locationInfoTable).values({
         geohash: location.geohash,
+        language: language || 'english',
         ...response,
       });
       adze.debug("Location info record refreshed", {
@@ -39,11 +46,17 @@ export class LocationController {
       });
       return response;
     }
-    
+  
+    // Try to find cached record with matching language
     const locationInfoRecord = await this.db
       .select()
       .from(locationInfoTable)
-      .where(eq(locationInfoTable.geohash, location.geohash));
+      .where(
+        and(
+          eq(locationInfoTable.geohash, location.geohash),
+          eq(locationInfoTable.language, language || 'english')
+        )
+      );
 
     if (locationInfoRecord.length > 0) {
       adze.debug("Location info record found in cache", {
@@ -56,9 +69,10 @@ export class LocationController {
     adze.fail("Location info record not found in cache, will fetch", {
       geohash: location.geohash,
     });
-    const response = await getLocationInfoFromService(location);
+    const response = await getLocationInfoFromService(location, language);
     await this.db.insert(locationInfoTable).values({
       geohash: location.geohash,
+      language: language || 'english',
       ...response,
     });
     adze.debug("Location info record created", {
